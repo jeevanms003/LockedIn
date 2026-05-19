@@ -1,0 +1,600 @@
+/* Import fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+/* Theme variables (aligned with Bubble Sort) */
+:root[data-theme="dark"] {
+  --bg: linear-gradient(135deg, #1e1b4b, #2e2a7b);
+  --text: #f3f4f6;
+  --gradient: linear-gradient(135deg, #7c3aed, #d946ef, #06b6d4, #a78bfa);
+  --gradient-hover: linear-gradient(135deg, #a78bfa, #06b6d4, #d946ef, #7c3aed);
+  --gradient-text: linear-gradient(135deg, #a5b4fc, #ec4899);
+  --glass-bg: rgba(30, 30, 50, 0.5);
+  --glass-blur: blur(24px);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --accent-purple: #7c3aed;
+  --accent-magenta: #ec4899;
+  --accent-cyan: #06b6d4;
+  --accent-violet: #a78bfa;
+  --bar-bg: radial-gradient(circle at 30% 30%, #94a3b8, #4b5563);
+  --left: radial-gradient(circle at 30% 30%, #60a5fa, #3b82f6);
+  --right: radial-gradient(circle at 30% 30%, #f87171, #ef4444);
+  --comparing: radial-gradient(circle at 30% 30%, #22d3ee, #0891b2);
+  --merged: radial-gradient(circle at 30% 30%, #facc15, #ca8a04);
+  --sorted: radial-gradient(circle at 30% 30%, #22c55e, #15803d);
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  --shadow-hover: 0 14px 50px rgba(124, 58, 237, 0.7);
+  --inner-glow: inset 0 0 12px rgba(255, 255, 255, 0.2);
+  --code-bg: rgba(20, 20, 40, 0.95);
+}
+
+:root[data-theme="light"] {
+  --bg: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  --text: #1e293b;
+  --gradient: linear-gradient(135deg, #ff6b6b, #c084fc, #84cc16, #facc15);
+  --gradient-hover: linear-gradient(135deg, #facc15, #84cc16, #c084fc, #ff6b6b);
+  --gradient-text: linear-gradient(135deg, #38bdf8, #f87171);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-blur: blur(24px);
+  --glass-border: rgba(0, 0, 0, 0.2);
+  --accent-purple: #c084fc;
+  --accent-magenta: #ff6b6b;
+  --accent-cyan: #84cc16;
+  --accent-violet: #facc15;
+  --bar-bg: radial-gradient(circle at 30% 30%, #d1d5db, #9ca3af);
+  --left: radial-gradient(circle at 30% 30%, #60a5fa, #2563eb);
+  --right: radial-gradient(circle at 30% 30%, #f87171, #dc2626);
+  --comparing: radial-gradient(circle at 30% 30%, #22d3ee, #0891b2);
+  --merged: radial-gradient(circle at 30% 30%, #facc15, #ca8a04);
+  --sorted: radial-gradient(circle at 30% 30%, #84cc16, #65a30d);
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 14px 50px rgba(192, 132, 252, 0.6);
+  --inner-glow: inset 0 0 12px rgba(0, 0, 0, 0.1);
+  --code-bg: rgba(240, 240, 245, 0.95);
+}
+
+/* Container */
+.ms-container {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Poppins", sans-serif;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.ms-particle-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+/* Header Section */
+.ms-header-section {
+  text-align: center;
+  padding: 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 2px solid var(--glass-border);
+  border-radius: 28px;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+  animation: msFadeIn 1s ease forwards;
+}
+
+.ms-animation-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.ms-animation-subtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--text);
+  opacity: 0.8;
+  margin: 0.5rem 0 0;
+}
+
+/* Visualization Section */
+.ms-visualization-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.5rem 0;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 2px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.ms-array-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+}
+
+.ms-index-row,
+.ms-value-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.ms-index-cell,
+.ms-value-cell {
+  width: 50px;
+  text-align: center;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.ms-index-cell {
+  opacity: 0.7;
+  font-size: 0.9rem;
+}
+
+.ms-value-cell {
+  font-weight: 500;
+}
+
+.ms-array-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 220px;
+  align-items: flex-end;
+  position: relative;
+}
+
+.ms-array-bar {
+  width: 50px;
+  background: var(--bar-bg);
+  border-radius: 8px 8px 0 0;
+  box-shadow: var(--inner-glow);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.ms-array-bar.ms-left {
+  background: var(--left);
+  filter: drop-shadow(0 0 10px var(--accent-cyan));
+  animation: msPulse 0.5s ease infinite;
+}
+
+.ms-array-bar.ms-right {
+  background: var(--right);
+  filter: drop-shadow(0 0 10px var(--accent-magenta));
+  animation: msPulse 0.5s ease infinite;
+}
+
+.ms-array-bar.ms-comparing {
+  background: var(--comparing);
+  filter: drop-shadow(0 0 14px var(--accent-cyan));
+  animation: msPulse 0.5s ease infinite;
+}
+
+.ms-array-bar.ms-merged {
+  background: var(--merged);
+  filter: drop-shadow(0 0 14px var(--accent-violet));
+  animation: msBounce 0.5s ease-in-out;
+}
+
+.ms-array-bar.ms-sorted {
+  background: var(--sorted);
+  filter: drop-shadow(0 0 14px var(--accent-cyan));
+  animation: msFoundAnimation 0.5s ease;
+}
+
+.ms-comparison-arrow {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ms-arrow-icon {
+  width: 20px;
+  height: 20px;
+  fill: var(--accent-cyan);
+}
+
+/* Info Section */
+.ms-info-section {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 2px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: var(--shadow);
+}
+
+.ms-step-description {
+  font-family: "IBM Plex Mono", monospace;
+  margin-bottom: 1.5rem;
+}
+
+.ms-step-description .ms-primary {
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ms-step-description .ms-secondary {
+  font-size: 1rem;
+  color: var(--text);
+  opacity: 0.8;
+  margin: 0.3rem 0;
+}
+
+.ms-complexity-visuals {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ms-complexity-card {
+  background: var(--glass-bg);
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  text-align: center;
+  min-width: 180px;
+  box-shadow: var(--inner-glow);
+}
+
+.ms-complexity-card h3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--text);
+}
+
+.ms-operation-bar,
+.ms-memory-bar {
+  height: 8px;
+  background: var(--gradient);
+  border-radius: 4px;
+  margin: 0.5rem 0;
+}
+
+.ms-complexity-card p {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.9;
+}
+
+.ms-timeline {
+  margin-top: 1.5rem;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+}
+
+.ms-timeline-marker {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+  transition: opacity 0.3s ease;
+}
+
+.ms-timeline-marker:hover {
+  background: var(--accent-violet);
+  cursor: pointer;
+}
+
+.ms-timeline-progress {
+  position: absolute;
+  height: 8px;
+  background: var(--gradient);
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+/* Controls Section */
+.ms-controls-section {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.ms-animation-controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 2px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
+}
+
+.ms-control-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  background: var(--glass-bg);
+  border: 2px solid var(--glass-border);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.ms-control-button:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.ms-control-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ms-control-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-violet);
+}
+
+/* Specific button styles */
+.ms-start-button {
+  border-color: var(--accent-cyan);
+}
+
+.ms-start-button:hover:not(:disabled) {
+  border-color: var(--accent-cyan);
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+}
+
+.ms-pause-resume-button {
+  border-color: var(--accent-magenta);
+}
+
+.ms-pause-resume-button:hover:not(:disabled) {
+  border-color: var(--accent-magenta);
+  background: linear-gradient(135deg, var(--accent-magenta), var(--accent-violet));
+}
+
+.ms-step-button {
+  border-color: var(--accent-violet);
+}
+
+.ms-step-button:hover:not(:disabled) {
+  border-color: var(--accent-violet);
+  background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+}
+
+.ms-reset-button {
+  border-color: var(--accent-purple);
+}
+
+.ms-reset-button:hover:not(:disabled) {
+  border-color: var(--accent-purple);
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-magenta));
+}
+
+.ms-control-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.ms-start-button .ms-control-icon {
+  fill: var(--accent-cyan);
+}
+
+.ms-pause-resume-button .ms-control-icon {
+  fill: var(--accent-magenta);
+}
+
+.ms-step-button .ms-control-icon {
+  fill: var(--accent-violet);
+}
+
+.ms-reset-button .ms-control-icon {
+  fill: var(--accent-purple);
+}
+
+.ms-control-button:hover .ms-control-icon {
+  transform: scale(1.1);
+}
+
+.ms-speed-control,
+.ms-case-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ms-control-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.ms-control-dropdown {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 2px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
+  color: var(--text);
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.ms-control-dropdown:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border: 2px solid var(--accent-violet);
+}
+
+.ms-control-dropdown:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-violet);
+}
+
+/* Animations */
+@keyframes msFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes msPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes msBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes msFoundAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ms-container {
+    padding: 1rem;
+  }
+
+  .ms-animation-title {
+    font-size: 2.4rem;
+  }
+
+  .ms-animation-subtitle {
+    font-size: 1rem;
+  }
+
+  .ms-array-bar {
+    width: 40px;
+  }
+
+  .ms-index-cell,
+  .ms-value-cell {
+    width: 40px;
+    font-size: 0.9rem;
+  }
+
+  .ms-control-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .ms-control-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ms-animation-title {
+    font-size: 2rem;
+  }
+
+  .ms-array-bar {
+    width: 30px;
+  }
+
+  .ms-index-cell,
+  .ms-value-cell {
+    width: 30px;
+    font-size: 0.8rem;
+  }
+
+  .ms-complexity-visuals {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ms-control-button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .ms-control-dropdown {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,431 @@
+/* Theme Variables (Imported from PracticePage.css) */
+.problem-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 2px solid var(--glass-border);
+  border-radius: 28px;
+  padding: 2.5rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+  animation: fadeIn 1s ease forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.problem-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-hover);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+
+.problem-card:hover::before {
+  opacity: 0.3;
+}
+
+.problem-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border: 2px solid var(--accent-violet);
+}
+
+.problem-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.problem-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.completion-icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.completion-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--accent-magenta);
+  transition: transform 0.3s ease, color 0.3s ease;
+  animation: pulseIcon 2s ease infinite;
+}
+
+.completion-icon:hover {
+  transform: scale(1.3);
+  color: var(--accent-cyan);
+}
+
+.problem-category {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--glass-bg);
+  border: 2px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 0.6rem 1.2rem;
+  opacity: 0.95;
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.problem-category:hover {
+  background: var(--gradient-hover);
+  color: #fff;
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.problem-actions {
+  display: flex;
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  background: var(--gradient);
+  border: none;
+  padding: 1rem 2rem;
+  color: #fff;
+  border-radius: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.action-button.youtube {
+  background: linear-gradient(135deg, #ff0000, #ff4d4d);
+}
+
+.action-button.youtube:hover {
+  background: linear-gradient(135deg, #ff4d4d, #ff0000);
+}
+
+.action-button.ai {
+  background: var(--gradient);
+}
+
+.action-button.ai:hover {
+  background: var(--gradient-hover);
+}
+
+.action-button.solve {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+}
+
+.action-button.solve:hover {
+  background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+}
+
+.action-button.solve:disabled {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.action-button.complete {
+  background: var(--gradient);
+}
+
+.action-button.complete:hover {
+  background: var(--gradient-hover);
+}
+
+.action-button.complete.completed {
+  background: linear-gradient(135deg, #6b7280, #4b5563);
+  opacity: 0.95;
+}
+
+.action-button.complete.completed:hover {
+  background: linear-gradient(135deg, #4b5563, #6b7280);
+}
+
+.action-button:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.action-button:active {
+  transform: translateY(0);
+  box-shadow: var(--inner-glow);
+}
+
+.action-icon {
+  width: 26px;
+  height: 26px;
+  transition: transform 0.3s ease;
+}
+
+.action-button:hover .action-icon {
+  transform: scale(1.2);
+}
+
+.action-button span {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.problem-description {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.3rem;
+  line-height: 1.9;
+  color: var(--text);
+  opacity: 0.95;
+  margin: 0 0 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.problem-description:hover {
+  transform: translateY(-4px);
+}
+
+.solution-button {
+  background: var(--gradient);
+  border: none;
+  padding: 1rem 2rem;
+  color: #fff;
+  border-radius: 32px;
+  cursor: pointer;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.solution-button:hover {
+  background: var(--gradient-hover);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+}
+
+.solution-button:active {
+  transform: translateY(0);
+  box-shadow: var(--inner-glow);
+}
+
+.problem-solution {
+  margin-top: 1.5rem;
+}
+
+.code-block {
+  background: var(--code-bg);
+  border: 2px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2rem;
+  font-size: 1.2rem;
+  font-family: "IBM Plex Mono", monospace;
+  color: var(--text);
+  white-space: pre-wrap;
+  box-shadow: var(--inner-glow);
+  animation: fadeIn 1s ease forwards;
+  overflow-x: auto;
+  line-height: 1.7;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.code-block:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Syntax Highlighting */
+.code-block .keyword {
+  color: var(--code-keyword);
+}
+
+.code-block .string {
+  color: var(--code-string);
+}
+
+/* Problem Difficulty */
+.problem-difficulty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.2rem;
+  border-radius: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  text-transform: capitalize;
+  color: var(--text);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 2px solid var(--glass-border);
+  box-shadow: var(--inner-glow), 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease, background 0.5s ease;
+  animation: fadeIn 0.4s ease-in-out;
+  min-width:_FUNC_90px;
+}
+
+.problem-difficulty:hover {
+  transform: scale(1.08);
+  box-shadow: var(--shadow-hover);
+  border: 2px solid var(--accent-violet);
+}
+
+.problem-difficulty.difficulty-easy {
+  background: linear-gradient(135deg, var(--difficulty-easy-bg), var(--accent-cyan));
+  animation: pulseGradient 12s ease infinite;
+}
+
+.problem-difficulty.difficulty-medium {
+  background: linear-gradient(135deg, var(--difficulty-medium-bg), var(--accent-magenta));
+  animation: pulseGradient 12s ease infinite;
+}
+
+.problem-difficulty.difficulty-hard {
+  background: linear-gradient(135deg, var(--difficulty-hard-bg), var(--accent-purple));
+  animation: pulseGradient 12s ease infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseIcon {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .problem-card {
+    padding: 2rem;
+  }
+
+  .problem-title {
+    font-size: 1.8rem;
+  }
+
+  .problem-description {
+    font-size: 1.2rem;
+  }
+
+  .code-block {
+    font-size: 1.1rem;
+    padding: 1.5rem;
+  }
+
+  .action-button {
+    padding: 0.9rem 1.8rem;
+  }
+
+  .action-button span {
+    font-size: 1.1rem;
+  }
+
+  .solution-button {
+    padding: 0.9rem 1.8rem;
+    font-size: 1.1rem;
+  }
+
+  .completion-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .problem-difficulty {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    min-width: 80px;
+    border-radius: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .problem-card {
+    padding: 1.5rem;
+  }
+
+  .problem-title {
+    font-size: 1.6rem;
+  }
+
+  .problem-category {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .action-button {
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
+  }
+
+  .action-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .action-button span {
+    font-size: 1rem;
+  }
+
+  .solution-button {
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
+  }
+
+  .completion-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .problem-difficulty {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    min-width: 70px;
+    border-radius: 12px;
+  }
+}

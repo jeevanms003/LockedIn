@@ -1,0 +1,415 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap");
+
+/* Theme Variables (Same as App.css, HomePage.css, PracticePage.css) */
+:root[data-theme="dark"] {
+  --bg: linear-gradient(135deg, #1e1b4b, #2e2a7b);
+  --text: #f3f4f6;
+  --gradient: linear-gradient(135deg, #7c3aed, #d946ef, #06b6d4, #a78bfa);
+  --gradient-hover: linear-gradient(135deg, #a78bfa, #06b6d4, #d946ef, #7c3aed);
+  --gradient-text: linear-gradient(135deg, #a5b4fc, #ec4899);
+  --glass-bg: rgba(30, 30, 50, 0.45);
+  --glass-blur: blur(20px);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --accent-purple: #7c3aed;
+  --accent-magenta: #ec4899;
+  --accent-cyan: #06b6d4;
+  --accent-violet: #a78bfa;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  --shadow-hover: 0 14px 40px rgba(124, 58, 237, 0.6);
+  --inner-glow: inset 0 0 12px rgba(255, 255, 255, 0.15);
+  --code-bg: rgba(20, 20, 40, 0.95);
+  --code-keyword: #ff79c6;
+  --code-string: #f1fa8c;
+  --skeleton-bg: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme="light"] {
+  --bg: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  --text: #1e293b;
+  --gradient: linear-gradient(135deg, #ff6b6b, #c084fc, #84cc16, #facc15);
+  --gradient-hover: linear-gradient(135deg, #facc15, #84cc16, #c084fc, #ff6b6b);
+  --gradient-text: linear-gradient(135deg, #38bdf8, #f87171);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-blur: blur(20px);
+  --glass-border: rgba(0, 0, 0, 0.15);
+  --accent-purple: #c084fc;
+  --accent-magenta: #ff6b6b;
+  --accent-cyan: #84cc16;
+  --accent-violet: #facc15;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --shadow-hover: 0 14px 40px rgba(192, 132, 252, 0.5);
+  --inner-glow: inset 0 0 12px rgba(0, 0, 0, 0.08);
+  --code-bg: rgba(240, 240, 245, 0.95);
+  --code-keyword: #d73a49;
+  --code-string: #22863a;
+  --skeleton-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* Global Styles */
+.bp-bookmarks-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Poppins", sans-serif;
+  padding: 1.2rem 2.5rem;
+  transition: background 0.5s ease, color 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Node Graph Background */
+.bp-bookmarks-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' opacity='0.08'%3E%3Ccircle cx='40' cy='40' r='10' fill='%23a78bfa'/%3E%3Ccircle cx='160' cy='40' r='10' fill='%2306b6d4'/%3E%3Ccircle cx='40' cy='160' r='10' fill='%23d946ef'/%3E%3Ccircle cx='160' cy='160' r='10' fill='%237c3aed'/%3E%3Cpath d='M40 40 L160 40 M40 160 L160 160 M40 40 L40 160 M160 40 L160 160' stroke='%23ffffff' stroke-width='2' opacity='0.3'/%3E%3Ctext x='100' y='100' font-size='12' fill='%23ffffff' text-anchor='middle' opacity='0.2' font-family='monospace'%3E1010%3C/text%3E%3C/svg%3E")
+    center center/200px 200px repeat;
+  z-index: -1;
+  animation: bp-floatNodes 20s linear infinite;
+}
+
+/* Floating DSA Icons */
+.bp-floating-icons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bp-floating-icon {
+  position: absolute;
+  opacity: 0.2;
+  animation: bp-floatIcon 15s ease-in-out infinite;
+  will-change: transform;
+}
+
+.bp-floating-icon svg {
+  width: 40px;
+  height: 40px;
+  fill: var(--accent-cyan);
+  transition: fill 0.4s ease;
+}
+
+.bp-floating-icon:nth-child(odd) svg {
+  fill: var(--accent-magenta);
+}
+
+.bp-floating-icon:nth-child(1) {
+  top: 10%;
+  left: 15%;
+  animation-delay: 0s;
+  animation-duration: 18s;
+}
+
+.bp-floating-icon:nth-child(2) {
+  top: 30%;
+  left: 80%;
+  animation-delay: -5s;
+  animation-duration: 16s;
+}
+
+.bp-floating-icon:nth-child(3) {
+  top: 60%;
+  left: 25%;
+  animation-delay: -10s;
+  animation-duration: 20s;
+}
+
+.bp-floating-icon:nth-child(4) {
+  top: 80%;
+  left: 70%;
+  animation-delay: -3s;
+  animation-duration: 17s;
+}
+
+.bp-floating-icon:nth-child(5) {
+  top: 20%;
+  left: 50%;
+  animation-delay: -8s;
+  animation-duration: 19s;
+}
+
+/* Bookmarks Header */
+.bp-bookmarks-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-radius: 30px;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.2rem;
+  animation: bp-fadeIn 1.2s ease forwards;
+  border: 1px solid var(--glass-border);
+  position: relative;
+  z-index: 1;
+}
+
+/* Bookmarks Title Wrapper */
+.bp-bookmarks-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.bp-title-icon {
+  width: 34px;
+  height: 34px;
+  color: var(--accent-cyan);
+  transition: color 0.4s ease, transform 0.4s ease;
+  animation: bp-pulseIcon 2s ease infinite;
+}
+
+.bp-bookmarks-title-wrapper:hover .bp-title-icon {
+  color: var(--accent-magenta);
+  transform: scale(1.1);
+}
+
+.bp-bookmarks-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* Header Layout */
+.bp-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bp-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Bookmarks List */
+.bp-bookmarks-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.bp-bookmark-item {
+  cursor: pointer;
+}
+
+.bp-bookmark-card
+
+ {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  animation: bp-fadeIn 1.2s ease forwards;
+}
+
+.bp-bookmark-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border: 1px solid transparent;
+  border-image: var(--gradient-hover) 1;
+}
+
+.bp-bookmark-card:active {
+  transform: translateY(1px);
+  box-shadow: var(--inner-glow);
+}
+
+.bp-bookmark-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Skeleton Loaders */
+.bp-skeleton {
+  background: var(--skeleton-bg);
+  border-radius: 20px;
+  animation: bp-pulse 1.5s ease-in-out infinite;
+}
+
+.bp-skeleton-card {
+  height: 100px;
+  width: 100%;
+}
+
+/* No Bookmarks */
+.bp-no-bookmarks {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text);
+  opacity: 0.8;
+  animation: bp-fadeIn 1s ease forwards;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Animations */
+@keyframes bp-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bp-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes bp-floatNodes {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200px 200px;
+  }
+}
+
+@keyframes bp-floatIcon {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(20px, -30px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes bp-pulseIcon {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .bp-bookmarks-page {
+    padding: 0.8rem 1.5rem;
+  }
+
+  .bp-bookmarks-header {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .bp-header-left,
+  .bp-header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .bp-bookmarks-title {
+    font-size: 2.2rem;
+  }
+
+  .bp-title-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .bp-bookmark-card {
+    padding: 1rem;
+  }
+
+  .bp-bookmark-title {
+    font-size: 1.4rem;
+  }
+
+  .bp-skeleton-card {
+    height: 80px;
+  }
+
+  .bp-floating-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bp-bookmarks-page {
+    padding: 0.6rem 1rem;
+  }
+
+  .bp-bookmarks-title {
+    font-size: 1.8rem;
+  }
+
+  .bp-title-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .bp-bookmark-title {
+    font-size: 1.3rem;
+  }
+
+  .bp-no-bookmarks {
+    font-size: 1.1rem;
+  }
+
+  .bp-floating-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+}

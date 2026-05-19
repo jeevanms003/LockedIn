@@ -1,0 +1,893 @@
+[
+  {
+    "id": "p1",
+    "title": "Find the Maximum Element in an Array",
+    "description": "Write a function to find the maximum element in an array of integers. For example, given [4, 2, 7, 1, 9], return 9.",
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "solution": "Loop through the array and track the maximum element.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint findMax(vector<int>& arr) {\n    // Initialize max with first element\n    int max = arr[0];\n    // Iterate through array to find larger elements\n    for (int i = 1; i < arr.size(); i++) {\n        if (arr[i] > max) max = arr[i];\n    }\n    return max;\n}\nint main() {\n    vector<int> arr = {4, 2, 7, 1, 9};\n    cout << findMax(arr); // Output: 9\n}\n```",
+    "link": "https://www.geeksforgeeks.org/c-program-find-largest-element-array/"
+  },
+  {
+    "id": "p2",
+    "title": "Check if a String is a Palindrome",
+    "description": "Write a function that returns true if the input string reads the same forward and backward, ignoring case (e.g., 'Radar' → true).",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "solution": "Use two pointers to compare characters from both ends.\n\n```cpp\n#include <string>\n#include <cctype>\n#include <iostream>\nusing namespace std;\nbool isPalindrome(string str) {\n    // Convert to lowercase\n    for (char& c : str) c = tolower(c);\n    int left = 0, right = str.length() - 1;\n    // Compare characters from both ends\n    while (left < right) {\n        if (str[left] != str[right]) return false;\n        left++; right--;\n    }\n    return true;\n}\nint main() {\n    string str = \"Radar\";\n    cout << isPalindrome(str); // Output: 1\n}\n```",
+    "link": "https://leetcode.com/problems/valid-palindrome/description/"
+  },
+  {
+    "id": "p3",
+    "title": "Activity Selection Problem",
+    "description": "Given a set of activities with start and finish times, select the maximum number of non-overlapping activities.",
+    "topic": "Greedy Algorithms",
+    "difficulty": "Medium",
+    "solution": "Sort activities by finish time and select non-overlapping ones.\n\n```cpp\n#include <vector>\n#include <algorithm>\n#include <iostream>\nusing namespace std;\nstruct Activity {\n    int start, finish;\n};\nvector<Activity> selectActivities(vector<Activity>& activities) {\n    // Sort by finish time\n    sort(activities.begin(), activities.end(), [](Activity a, Activity b) {\n        return a.finish < b.finish;\n    });\n    vector<Activity> result;\n    result.push_back(activities[0]);\n    int last = 0;\n    // Select non-overlapping activities\n    for (int i = 1; i < activities.size(); i++) {\n        if (activities[i].start >= activities[last].finish) {\n            result.push_back(activities[i]);\n            last = i;\n        }\n    }\n    return result;\n}\nint main() {\n    vector<Activity> activities = {{1,4}, {3,5}, {6,7}};\n    auto result = selectActivities(activities);\n    cout << result.size(); // Output: 2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/activity-selection-problem-greedy-algo-1/"
+  },
+  {
+    "id": "p4",
+    "title": "Reverse an Array",
+    "description": "Write a function to reverse an array of integers in place. For example, [1, 2, 3, 4] → [4, 3, 2, 1].",
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "solution": "Use two pointers to swap elements from both ends.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid reverseArray(vector<int>& arr) {\n    int left = 0, right = arr.size() - 1;\n    // Swap elements until pointers meet\n    while (left < right) {\n        swap(arr[left], arr[right]);\n        left++; right--;\n    }\n}\nint main() {\n    vector<int> arr = {1, 2, 3, 4};\n    reverseArray(arr);\n    for (int x : arr) cout << x << \" \"; // Output: 4 3 2 1\n}\n```",
+    "link": "https://leetcode.com/problems/reverse-array-in-groups/description/"
+  },
+  {
+    "id": "p5",
+    "title": "Find First Non-Repeating Character",
+    "description": "Find the first character in a string that appears only once. For example, 'aabbc' → 'c'.",
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "solution": "Use a frequency map and check characters in order.\n\n```cpp\n#include <string>\n#include <unordered_map>\n#include <iostream>\nusing namespace std;\nchar firstNonRepeating(string str) {\n    // Store character frequencies\n    unordered_map<char, int> freq;\n    for (char c : str) freq[c]++;\n    // Find first character with frequency 1\n    for (char c : str) {\n        if (freq[c] == 1) return c;\n    }\n    return '#';\n}\nint main() {\n    string str = \"aabbc\";\n    cout << firstNonRepeating(str); // Output: c\n}\n```",
+    "link": "https://leetcode.com/problems/first-unique-character-in-a-string/description/"
+  },
+  {
+    "id": "p6",
+    "title": "Fractional Knapsack",
+    "description": "Given items with weights and values, maximize value in a knapsack of capacity W, allowing fractions of items.",
+    "topic": "Greedy Algorithms",
+    "difficulty": "Medium",
+    "solution": "Sort items by value/weight ratio and fill knapsack greedily.\n\n```cpp\n#include <vector>\n#include <algorithm>\n#include <iostream>\nusing namespace std;\nstruct Item {\n    double value, weight;\n};\ndouble fractionalKnapsack(vector<Item>& items, double W) {\n    // Sort by value/weight ratio\n    sort(items.begin(), items.end(), [](Item a, Item b) {\n        return a.value / a.weight > b.value / b.weight;\n    });\n    double total = 0;\n    // Fill knapsack\n    for (auto& item : items) {\n        if (W >= item.weight) {\n            total += item.value;\n            W -= item.weight;\n        } else {\n            total += item.value * (W / item.weight);\n            break;\n        }\n    }\n    return total;\n}\nint main() {\n    vector<Item> items = {{60,10}, {100,20}, {120,30}};\n    cout << fractionalKnapsack(items, 50); // Output: 240\n}\n```",
+    "link": "https://www.geeksforgeeks.org/fractional-knapsack-problem/"
+  },
+  {
+    "id": "p7",
+    "title": "Breadth-First Search",
+    "description": "Traverse a graph level by level starting from a given vertex. For example, return traversal order for a graph.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use a queue to explore vertices level by level.\n\n```cpp\n#include <vector>\n#include <queue>\n#include <iostream>\nusing namespace std;\nvoid bfs(vector<vector<int>>& adj, int start) {\n    vector<bool> visited(adj.size(), false);\n    queue<int> q;\n    q.push(start); visited[start] = true;\n    // Process queue until empty\n    while (!q.empty()) {\n        int v = q.front(); q.pop();\n        cout << v << \" \";\n        for (int u : adj[v]) {\n            if (!visited[u]) {\n                q.push(u); visited[u] = true;\n            }\n        }\n    }\n}\nint main() {\n    vector<vector<int>> adj = {{}, {2,3}, {1,4}, {1,4}, {2,3}};\n    bfs(adj, 1); // Output: 1 2 3 4\n}\n```",
+    "link": "https://leetcode.com/problems/01-matrix/description/"
+  },
+  {
+    "id": "p8",
+    "title": "Depth-First Search",
+    "description": "Traverse a graph by exploring as far as possible along each branch before backtracking.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use recursion to explore neighbors depth-first.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid dfs(vector<vector<int>>& adj, int v, vector<bool>& visited) {\n    visited[v] = true;\n    cout << v << \" \";\n    // Explore unvisited neighbors\n    for (int u : adj[v]) {\n        if (!visited[u]) dfs(adj, u, visited);\n    }\n}\nint main() {\n    vector<vector<int>> adj = {{}, {2,3}, {1,4}, {1,4}, {2,3}};\n    vector<bool> visited(5, false);\n    dfs(adj, 1, visited); // Output: 1 2 4 3\n}\n```",
+    "link": "https://leetcode.com/problems/number-of-provinces/description/"
+  },
+  {
+    "id": "p9",
+    "title": "Dijkstra’s Shortest Path",
+    "description": "Find the shortest paths from a source vertex to all vertices in a weighted graph with non-negative weights.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use a priority queue to select the vertex with minimum distance.\n\n```cpp\n#include <vector>\n#include <queue>\n#include <iostream>\nusing namespace std;\nvector<int> dijkstra(vector<vector<pair<int,int>>>& adj, int src) {\n    vector<int> dist(adj.size(), INT_MAX);\n    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> pq;\n    dist[src] = 0; pq.push({0, src});\n    // Update distances using priority queue\n    while (!pq.empty()) {\n        int u = pq.top().second; pq.pop();\n        for (auto& [v, w] : adj[u]) {\n            if (dist[u] + w < dist[v]) {\n                dist[v] = dist[u] + w;\n                pq.push({dist[v], v});\n            }\n        }\n    }\n    return dist;\n}\nint main() {\n    vector<vector<pair<int,int>>> adj = {{{2,2},{3,3}}, {{4,1}}, {}, {{2,1}}, {}};\n    auto dist = dijkstra(adj, 1);\n    for (int d : dist) if (d != INT_MAX) cout << d << \" \"; // Output: 0 2 3 3\n}\n```",
+    "link": "https://leetcode.com/problems/network-delay-time/description/"
+  },
+  {
+    "id": "p10",
+    "title": "Bellman-Ford Algorithm",
+    "description": "Find shortest paths from a source to all vertices, handling negative weights.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Relax all edges |V|-1 times to find shortest paths.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvector<int> bellmanFord(vector<vector<pair<int,int>>>& adj, int src) {\n    vector<int> dist(adj.size(), INT_MAX);\n    dist[src] = 0;\n    // Relax edges |V|-1 times\n    for (int i = 1; i < adj.size(); i++) {\n        for (int u = 0; u < adj.size(); u++) {\n            for (auto& [v, w] : adj[u]) {\n                if (dist[u] != INT_MAX && dist[u] + w < dist[v]) {\n                    dist[v] = dist[u] + w;\n                }\n            }\n        }\n    }\n    return dist;\n}\nint main() {\n    vector<vector<pair<int,int>>> adj = {{{2,-1},{3,-2}}, {}, {{4,3}}, {}, {}};\n    auto dist = bellmanFord(adj, 1);\n    for (int d : dist) if (d != INT_MAX) cout << d << \" \"; // Output: 0 -1 -2 -2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/bellman-ford-algorithm-dp-23/"
+  },
+  {
+    "id": "p11",
+    "title": "Floyd-Warshall Algorithm",
+    "description": "Find shortest paths between all pairs of vertices in a weighted graph.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use dynamic programming to update distances via intermediate vertices.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid floydWarshall(vector<vector<int>>& graph) {\n    int n = graph.size();\n    vector<vector<int>> dist = graph;\n    // Update distances via each vertex\n    for (int k = 0; k < n; k++) {\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++) {\n                if (dist[i][k] != INT_MAX && dist[k][j] != INT_MAX && dist[i][k] + dist[k][j] < dist[i][j]) {\n                    dist[i][j] = dist[i][k] + dist[k][j];\n                }\n            }\n        }\n    }\n    // Print distances\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++) {\n            cout << (dist[i][j] == INT_MAX ? \"INF\" : to_string(dist[i][j])) << \" \";\n        }\n        cout << endl;\n    }\n}\nint main() {\n    vector<vector<int>> graph = {{0,2,3,INT_MAX}, {INT_MAX,0,INT_MAX,1}, {INT_MAX,INT_MAX,0,4}, {INT_MAX,INT_MAX,INT_MAX,0}};\n    floydWarshall(graph); // Output: Shortest paths matrix\n}\n```",
+    "link": "https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/description/"
+  },
+  {
+    "id": "p12",
+    "title": "Prim’s Algorithm",
+    "description": "Find the minimum spanning tree (MST) of a weighted undirected graph.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use a priority queue to select minimum-weight edges.\n\n```cpp\n#include <vector>\n#include <queue>\n#include <iostream>\nusing namespace std;\nvector<int> prim(vector<vector<pair<int,int>>>& adj) {\n    vector<int> parent(adj.size(), -1);\n    vector<bool> inMST(adj.size(), false);\n    vector<int> key(adj.size(), INT_MAX);\n    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> pq;\n    key[0] = 0; pq.push({0, 0});\n    // Build MST\n    while (!pq.empty()) {\n        int u = pq.top().second; pq.pop();\n        if (inMST[u]) continue;\n        inMST[u] = true;\n        for (auto& [v, w] : adj[u]) {\n            if (!inMST[v] && w < key[v]) {\n                key[v] = w; parent[v] = u;\n                pq.push({w, v});\n            }\n        }\n    }\n    return parent;\n}\nint main() {\n    vector<vector<pair<int,int>>> adj = {{{2,2},{3,3}}, {{4,1}}, {{4,4}}, {{2,1}}, {}};\n    auto parent = prim(adj);\n    for (int i = 1; i < parent.size(); i++) if (parent[i] != -1) cout << i << \"→\" << parent[i] << \" \"; // Output: 2→1 3→1 4→2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/prims-mst-for-adjacency-list-representation-greedy-algo-6/"
+  },
+  {
+    "id": "p13",
+    "title": "Kruskal’s Algorithm",
+    "description": "Find the minimum spanning tree by sorting edges and adding non-cyclic ones.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use Union-Find to avoid cycles.\n\n```cpp\n#include <vector>\n#include <algorithm>\n#include <iostream>\nusing namespace std;\nstruct Edge { int u, v, w; };\nint find(vector<int>& parent, int x) {\n    if (parent[x] != x) parent[x] = find(parent, parent[x]);\n    return parent[x];\n}\nvector<Edge> kruskal(vector<Edge>& edges, int n) {\n    vector<Edge> mst;\n    vector<int> parent(n);\n    for (int i = 0; i < n; i++) parent[i] = i;\n    // Sort edges by weight\n    sort(edges.begin(), edges.end(), [](Edge a, Edge b) { return a.w < b.w; });\n    // Add non-cyclic edges\n    for (auto& e : edges) {\n        int pu = find(parent, e.u), pv = find(parent, e.v);\n        if (pu != pv) {\n            mst.push_back(e);\n            parent[pu] = pv;\n        }\n    }\n    return mst;\n}\nint main() {\n    vector<Edge> edges = {{1,2,2}, {2,4,1}, {1,3,3}, {3,4,4}};\n    auto mst = kruskal(edges, 5);\n    for (auto& e : mst) cout << e.u << \"→\" << e.v << \"(\" << e.w << \") \"; // Output: 2→4(1) 1→2(2)\n}\n```",
+    "link": "https://www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/"
+  },
+  {
+    "id": "p14",
+    "title": "Topological Sort",
+    "description": "Order vertices in a DAG so that for every edge u→v, u comes before v.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use DFS to get post-order and reverse it.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid dfs(vector<vector<int>>& adj, int v, vector<bool>& visited, vector<int>& result) {\n    visited[v] = true;\n    for (int u : adj[v]) {\n        if (!visited[u]) dfs(adj, u, visited, result);\n    }\n    result.push_back(v);\n}\nvector<int> topologicalSort(vector<vector<int>>& adj) {\n    vector<bool> visited(adj.size(), false);\n    vector<int> result;\n    // DFS on all unvisited vertices\n    for (int v = 0; v < adj.size(); v++) {\n        if (!visited[v]) dfs(adj, v, visited, result);\n    }\n    reverse(result.begin(), result.end());\n    return result;\n}\nint main() {\n    vector<vector<int>> adj = {{}, {2}, {3}, {}, {}};\n    auto order = topologicalSort(adj);\n    for (int v : order) cout << v << \" \"; // Output: 0 1 2 3\n}\n```",
+    "link": "https://leetcode.com/problems/course-schedule-ii/description/"
+  },
+  {
+    "id": "p15",
+    "title": "Union-Find for Cycle Detection",
+    "description": "Detect if an undirected graph contains a cycle using Union-Find.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use Union-Find to check if an edge connects vertices in the same set.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nstruct UnionFind {\n    vector<int> parent, rank;\n    UnionFind(int n) : parent(n), rank(n, 0) {\n        for (int i = 0; i < n; i++) parent[i] = i;\n    }\n    int find(int x) {\n        if (parent[x] != x) parent[x] = find(parent[x]);\n        return parent[x];\n    }\n    bool unite(int x, int y) {\n        int px = find(x), py = find(y);\n        if (px == py) return false;\n        if (rank[px] < rank[py]) swap(px, py);\n        parent[py] = px;\n        if (rank[px] == rank[py]) rank[px]++;\n        return true;\n    }\n};\nbool hasCycle(vector<vector<int>>& edges, int n) {\n    UnionFind uf(n);\n    // Check each edge\n    for (auto& e : edges) {\n        if (!uf.unite(e[0], e[1])) return true;\n    }\n    return false;\n}\nint main() {\n    vector<vector<int>> edges = {{1,2}, {2,3}, {3,1}};\n    cout << hasCycle(edges, 4); // Output: 1\n}\n```",
+    "link": "https://leetcode.com/problems/graph-valid-tree/description/"
+  },
+  {
+    "id": "p16",
+    "title": "Tarjan’s Strongly Connected Components",
+    "description": "Find strongly connected components in a directed graph.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use DFS with a stack to identify SCCs.\n\n```cpp\n#include <vector>\n#include <stack>\n#include <iostream>\nusing namespace std;\nvoid dfs(vector<vector<int>>& adj, int v, vector<int>& disc, vector<int>& low, stack<int>& st, vector<bool>& inStack, vector<vector<int>>& sccs) {\n    static int time = 0;\n    disc[v] = low[v] = ++time;\n    st.push(v); inStack[v] = true;\n    // Explore neighbors\n    for (int u : adj[v]) {\n        if (disc[u] == -1) {\n            dfs(adj, u, disc, low, st, inStack, sccs);\n            low[v] = min(low[v], low[u]);\n        } else if (inStack[u]) {\n            low[v] = min(low[v], disc[u]);\n        }\n    }\n    // Form SCC\n    if (disc[v] == low[v]) {\n        vector<int> scc;\n        while (st.top() != v) {\n            scc.push_back(st.top()); inStack[st.top()] = false; st.pop();\n        }\n        scc.push_back(st.top()); inStack[st.top()] = false; st.pop();\n        sccs.push_back(scc);\n    }\n}\nvector<vector<int>> tarjanSCC(vector<vector<int>>& adj) {\n    int n = adj.size();\n    vector<int> disc(n, -1), low(n, -1);\n    vector<bool> inStack(n, false);\n    stack<int> st;\n    vector<vector<int>> sccs;\n    for (int v = 0; v < n; v++) {\n        if (disc[v] == -1) dfs(adj, v, disc, low, st, inStack, sccs);\n    }\n    return sccs;\n}\nint main() {\n    vector<vector<int>> adj = {{}, {2}, {4}, {}, {3}};\n    auto sccs = tarjanSCC(adj);\n    for (auto& scc : sccs) {\n        for (int v : scc) cout << v << \" \";\n        cout << endl;\n    } // Output: 1 2 3\n}\n```",
+    "link": "https://www.geeksforgeeks.org/tarjan-algorithm-find-strongly-connected-components/"
+  },
+  {
+    "id": "p17",
+    "title": "Check Power of 2",
+    "description": "Check if a number is a power of 2 using bit manipulation. For example, 8 → true.",
+    "topic": "Bit Manipulation",
+    "difficulty": "Easy",
+    "solution": "Use n & (n-1) to check if only one bit is set.\n\n```cpp\n#include <iostream>\nusing namespace std;\nbool isPowerOf2(int n) {\n    // Power of 2 has only one set bit\n    return n > 0 && (n & (n - 1)) == 0;\n}\nint main() {\n    cout << isPowerOf2(8); // Output: 1\n}\n```",
+    "link": "https://leetcode.com/problems/power-of-two/description/"
+  },
+  {
+    "id": "p18",
+    "title": "Count Set Bits",
+    "description": "Count the number of 1s in the binary representation of a number. For example, 11 (1011) → 3.",
+    "topic": "Bit Manipulation",
+    "difficulty": "Easy",
+    "solution": "Clear least significant set bit in each step.\n\n```cpp\n#include <iostream>\nusing namespace std;\nint countSetBits(int n) {\n    int count = 0;\n    // Clear least significant bit until n=0\n    while (n) {\n        n &= (n - 1);\n        count++;\n    }\n    return count;\n}\nint main() {\n    cout << countSetBits(11); // Output: 3\n}\n```",
+    "link": "https://leetcode.com/problems/number-of-1-bits/description/"
+  },
+  {
+    "id": "p19",
+    "title": "Single Number",
+    "description": "Find the number that appears once in an array where all others appear twice.",
+    "topic": "Bit Manipulation",
+    "difficulty": "Easy",
+    "solution": "Use XOR to cancel duplicates.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint singleNumber(vector<int>& nums) {\n    int result = 0;\n    // XOR cancels duplicates\n    for (int num : nums) result ^= num;\n    return result;\n}\nint main() {\n    vector<int> nums = {4,2,4,2,3};\n    cout << singleNumber(nums); // Output: 3\n}\n```",
+    "link": "https://leetcode.com/problems/single-number/description/"
+  },
+  {
+    "id": "p20",
+    "title": "Toggle Bits",
+    "description": "Toggle all bits of a number (0→1, 1→0).",
+    "topic": "Bit Manipulation",
+    "difficulty": "Easy",
+    "solution": "Use bitwise NOT to flip all bits.\n\n```cpp\n#include <iostream>\nusing namespace std;\nint toggleBits(int n) {\n    return ~n;\n}\nint main() {\n    cout << toggleBits(10); // Output: -11 (32-bit)\n}\n```",
+    "link": "https://www.geeksforgeeks.org/bitwise-operators-in-c-cpp/"
+  },
+  {
+    "id": "p21",
+    "title": "KMP String Matching",
+    "description": "Find all occurrences of a pattern in a text using KMP algorithm.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Build LPS table to skip redundant comparisons.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nvector<int> computeLPS(string pattern) {\n    int m = pattern.size(), len = 0;\n    vector<int> lps(m, 0);\n    for (int i = 1; i < m; i++) {\n        while (len > 0 && pattern[i] != pattern[len]) len = lps[len - 1];\n        if (pattern[i] == pattern[len]) len++;\n        lps[i] = len;\n    }\n    return lps;\n}\nvector<int> kmpMatch(string text, string pattern) {\n    vector<int> result, lps = computeLPS(pattern);\n    int n = text.size(), m = pattern.size(), j = 0;\n    // Match pattern in text\n    for (int i = 0; i < n; i++) {\n        while (j > 0 && text[i] != pattern[j]) j = lps[j - 1];\n        if (text[i] == pattern[j]) j++;\n        if (j == m) {\n            result.push_back(i - j + 1);\n            j = lps[j - 1];\n        }\n    }\n    return result;\n}\nint main() {\n    string text = \"ABABCD\", pattern = \"ABABC\";\n    auto matches = kmpMatch(text, pattern);\n    for (int i : matches) cout << i << \" \"; // Output: 0\n}\n```",
+    "link": "https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/"
+  },
+  {
+    "id": "p22",
+    "title": "Rabin-Karp String Matching",
+    "description": "Find all occurrences of a pattern in a text using rolling hash.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Compute and compare hashes of pattern and text windows.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nvector<int> rabinKarp(string text, string pattern) {\n    int d = 256, q = 101, n = text.size(), m = pattern.size();\n    vector<int> result;\n    long long p = 0, t = 0, h = 1;\n    // Compute hash multiplier\n    for (int i = 0; i < m - 1; i++) h = (h * d) % q;\n    // Initial hash for pattern and first window\n    for (int i = 0; i < m; i++) {\n        p = (d * p + pattern[i]) % q;\n        t = (d * t + text[i]) % q;\n    }\n    // Slide window and compare hashes\n    for (int i = 0; i <= n - m; i++) {\n        if (p == t) {\n            bool match = true;\n            for (int j = 0; j < m; j++)\n                if (text[i + j] != pattern[j]) { match = false; break; }\n            if (match) result.push_back(i);\n        }\n        if (i < n - m) {\n            t = (d * (t - text[i] * h) + text[i + m]) % q;\n            if (t < 0) t += q;\n        }\n    }\n    return result;\n}\nint main() {\n    string text = \"ABCDE\", pattern = \"BCD\";\n    auto matches = rabinKarp(text, pattern);\n    for (int i : matches) cout << i << \" \"; // Output: 1\n}\n```",
+    "link": "https://www.geeksforgeeks.org/rabin-karp-algorithm-for-pattern-searching/"
+  },
+  {
+    "id": "p23",
+    "title": "Longest Common Substring",
+    "description": "Find the longest common substring between two strings.",
+    "topic": "String Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use dynamic programming to build a 2D table.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nint longestCommonSubstring(string s1, string s2) {\n    int m = s1.size(), n = s2.size(), maxLen = 0;\n    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));\n    for (int i = 1; i <= m; i++) {\n        for (int j = 1; j <= n; j++) {\n            if (s1[i-1] == s2[j-1]) {\n                dp[i][j] = dp[i-1][j-1] + 1;\n                maxLen = max(maxLen, dp[i][j]);\n            }\n        }\n    }\n    return maxLen;\n}\nint main() {\n    string s1 = \"ABCDGH\", s2 = \"AEDFHR\";\n    cout << longestCommonSubstring(s1, s2); // Output: 3\n}\n```",
+    "link": "https://www.geeksforgeeks.org/longest-common-substring-dp-29/"
+  },
+  {
+    "id": "p24",
+    "title": "Longest Palindromic Substring",
+    "description": "Find the longest palindromic substring in a given string.",
+    "topic": "String Algorithms",
+    "difficulty": "Medium",
+    "solution": "Expand around center to find palindromes.\n\n```cpp\n#include <string>\n#include <iostream>\nusing namespace std;\nstring longestPalindromic(string s) {\n    int start = 0, maxLen = 1;\n    for (int i = 0; i < s.size(); i++) {\n        // Odd length palindrome\n        int left = i, right = i;\n        while (left >= 0 && right < s.size() && s[left] == s[right]) {\n            if (right - left + 1 > maxLen) {\n                start = left; maxLen = right - left + 1;\n            }\n            left--; right++;\n        }\n        // Even length palindrome\n        left = i; right = i + 1;\n        while (left >= 0 && right < s.size() && s[left] == s[right]) {\n            if (right - left + 1 > maxLen) {\n                start = left; maxLen = right - left + 1;\n            }\n            left--; right++;\n        }\n    }\n    return s.substr(start, maxLen);\n}\nint main() {\n    string s = \"babad\"; cout << longestPalindromic(s); // Output: bab\n}\n```",
+    "link": "https://leetcode.com/problems/longest-palindromic-substring/description/"
+  },
+  {
+    "id": "p25",
+    "title": "Z-Algorithm for String Matching",
+    "description": "Compute the Z-array for a string to find all occurrences of a pattern.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use Z-algorithm to compute Z-values efficiently.\n\n```cpp\n#include <vector>\n#include <string>\n#include <iostream>\nusing namespace std;\nvector<int> zAlgorithm(string s) {\n    int n = s.size();\n    vector<int> z(n, 0);\n    int left = 0, right = 0;\n    for (int i = 1; i < n; i++) {\n        if (i > right) {\n            left = right = i;\n            while (right < n && s[right] == s[right - left]) right++;\n            z[i] = right - left; right--;\n        } else {\n            int k = i - left;\n            if (z[k] < right - i + 1) z[i] = z[k];\n            else {\n                left = i;\n                while (right < n && s[right] == s[right - left]) right++;\n                z[i] = right - left; right--;\n            }\n        }\n    }\n    return z;\n}\nint main() {\n    string s = \"aabxaabxaabx\"; auto z = zAlgorithm(s);\n    for (int x : z) cout << x << \" \"; // Output: 0 1 0 2 ...\n}\n```",
+    "link": "https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/"
+  },
+  {
+    "id": "p26",
+    "title": "Binary Search",
+    "description": "Find an element in a sorted array using binary search.",
+    "topic": "Searching Algorithms",
+    "difficulty": "Easy",
+    "solution": "Use divide and conquer to find the target.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint binarySearch(vector<int>& arr, int target) {\n    int left = 0, right = arr.size() - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}\nint main() {\n    vector<int> arr = {1, 3, 5, 7, 9}; cout << binarySearch(arr, 5); // Output: 2\n}\n```",
+    "link": "https://leetcode.com/problems/binary-search/description/"
+  },
+  {
+    "id": "p27",
+    "title": "Exponential Search",
+    "description": "Find an element in a sorted array by exponentially jumping and then binary search.",
+    "topic": "Searching Algorithms",
+    "difficulty": "Medium",
+    "solution": "Jump exponentially and use binary search in the range.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint binarySearch(vector<int>& arr, int left, int right, int target) {\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        else if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}\nint exponentialSearch(vector<int>& arr, int target) {\n    if (arr[0] == target) return 0;\n    int i = 1;\n    while (i < arr.size() && arr[i] <= target) i *= 2;\n    return binarySearch(arr, i / 2, min(i, (int)arr.size() - 1), target);\n}\nint main() {\n    vector<int> arr = {1, 3, 5, 7, 9, 11}; cout << exponentialSearch(arr, 7); // Output: 3\n}\n```",
+    "link": "https://www.geeksforgeeks.org/exponential-search/"
+  },
+  {
+    "id": "p28",
+    "title": "Jump Search",
+    "description": "Find an element in a sorted array by jumping ahead by a fixed step.",
+    "topic": "Searching Algorithms",
+    "difficulty": "Medium",
+    "solution": "Jump by block size and linear search in the block.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint jumpSearch(vector<int>& arr, int target) {\n    int n = arr.size(), step = sqrt(n);\n    int prev = 0;\n    while (arr[min(step, n) - 1] < target) {\n        prev = step;\n        step += sqrt(n);\n        if (prev >= n) return -1;\n    }\n    while (arr[prev] < target) {\n        prev++;\n        if (prev == min(step, n)) return -1;\n    }\n    return arr[prev] == target ? prev : -1;\n}\nint main() {\n    vector<int> arr = {1, 3, 5, 7, 9}; cout << jumpSearch(arr, 7); // Output: 3\n}\n```",
+    "link": "https://www.geeksforgeeks.org/jump-search/"
+  },
+  {
+    "id": "p29",
+    "title": "Merge Sort",
+    "description": "Sort an array using the merge sort algorithm.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Medium",
+    "solution": "Divide array into halves and merge sorted halves.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid merge(vector<int>& arr, int left, int mid, int right) {\n    int n1 = mid - left + 1, n2 = right - mid;\n    vector<int> L(n1), R(n2);\n    for (int i = 0; i < n1; i++) L[i] = arr[left + i];\n    for (int j = 0; j < n2; j++) R[j] = arr[mid + 1 + j];\n    int i = 0, j = 0, k = left;\n    while (i < n1 && j < n2) {\n        if (L[i] <= R[j]) arr[k++] = L[i++];\n        else arr[k++] = R[j++];\n    }\n    while (i < n1) arr[k++] = L[i++];\n    while (j < n2) arr[k++] = R[j++];\n}\nvoid mergeSort(vector<int>& arr, int left, int right) {\n    if (left < right) {\n        int mid = left + (right - left) / 2;\n        mergeSort(arr, left, mid);\n        mergeSort(arr, mid + 1, right);\n        merge(arr, left, mid, right);\n    }\n}\nint main() {\n    vector<int> arr = {64, 34, 25, 12, 22}; mergeSort(arr, 0, arr.size() - 1);\n    for (int x : arr) cout << x << \" \"; // Output: 12 22 25 34 64\n}\n```",
+    "link": "https://leetcode.com/problems/sort-an-array/description/"
+  },
+  {
+    "id": "p30",
+    "title": "Quick Sort",
+    "description": "Sort an array using the quicksort algorithm.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Medium",
+    "solution": "Partition array and recursively sort partitions.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint partition(vector<int>& arr, int low, int high) {\n    int pivot = arr[high], i = low - 1;\n    for (int j = low; j < high; j++) {\n        if (arr[j] <= pivot) {\n            i++; swap(arr[i], arr[j]);\n        }\n    }\n    swap(arr[i + 1], arr[high]);\n    return i + 1;\n}\nvoid quickSort(vector<int>& arr, int low, int high) {\n    if (low < high) {\n        int pi = partition(arr, low, high);\n        quickSort(arr, low, pi - 1);\n        quickSort(arr, pi + 1, high);\n    }\n}\nint main() {\n    vector<int> arr = {64, 34, 25, 12, 22}; quickSort(arr, 0, arr.size() - 1);\n    for (int x : arr) cout << x << \" \"; // Output: 12 22 25 34 64\n}\n```",
+    "link": "https://leetcode.com/problems/sort-an-array/description/"
+  },
+  {
+    "id": "p31",
+    "title": "Heap Sort",
+    "description": "Sort an array using the heap sort algorithm.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Medium",
+    "solution": "Build max heap and extract elements to sort.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid heapify(vector<int>& arr, int n, int i) {\n    int largest = i, left = 2 * i + 1, right = 2 * i + 2;\n    if (left < n && arr[left] > arr[largest]) largest = left;\n    if (right < n && arr[right] > arr[largest]) largest = right;\n    if (largest != i) {\n        swap(arr[i], arr[largest]);\n        heapify(arr, n, largest);\n    }\n}\nvoid heapSort(vector<int>& arr) {\n    int n = arr.size();\n    for (int i = n / 2 - 1; i >= 0; i--) heapify(arr, n, i);\n    for (int i = n - 1; i > 0; i--) {\n        swap(arr[0], arr[i]);\n        heapify(arr, i, 0);\n    }\n}\nint main() {\n    vector<int> arr = {12, 11, 13, 5, 6}; heapSort(arr);\n    for (int x : arr) cout << x << \" \"; // Output: 5 6 11 12 13\n}\n```",
+    "link": "https://www.geeksforgeeks.org/heap-sort/"
+  },
+  {
+    "id": "p32",
+    "title": "Bubble Sort",
+    "description": "Sort an array using the bubble sort algorithm.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Easy",
+    "solution": "Compare adjacent elements and swap if out of order.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid bubbleSort(vector<int>& arr) {\n    int n = arr.size();\n    for (int i = 0; i < n - 1; i++) {\n        for (int j = 0; j < n - i - 1; j++) {\n            if (arr[j] > arr[j + 1]) swap(arr[j], arr[j + 1]);\n        }\n    }\n}\nint main() {\n    vector<int> arr = {64, 34, 25, 12}; bubbleSort(arr);\n    for (int x : arr) cout << x << \" \"; // Output: 12 25 34 64\n}\n```",
+    "link": "https://www.geeksforgeeks.org/bubble-sort/"
+  },
+  {
+    "id": "p33",
+    "title": "Insertion Sort",
+    "description": "Sort an array using the insertion sort algorithm.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Easy",
+    "solution": "Insert each element into its correct position.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid insertionSort(vector<int>& arr) {\n    int n = arr.size();\n    for (int i = 1; i < n; i++) {\n        int key = arr[i];\n        int j = i - 1;\n        while (j >= 0 && arr[j] > key) {\n            arr[j + 1] = arr[j];\n            j--;\n        }\n        arr[j + 1] = key;\n    }\n}\nint main() {\n    vector<int> arr = {12, 11, 13, 5}; insertionSort(arr);\n    for (int x : arr) cout << x << \" \"; // Output: 5 11 12 13\n}\n```",
+    "link": "https://www.geeksforgeeks.org/insertion-sort/"
+  },
+  {
+    "id": "p34",
+    "title": "Selection Sort",
+    "description": "Sort an array using the selection sort algorithm.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Easy",
+    "solution": "Find minimum element and place it at the beginning.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid selectionSort(vector<int>& arr) {\n    int n = arr.size();\n    for (int i = 0; i < n - 1; i++) {\n        int minIdx = i;\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIdx]) minIdx = j;\n        }\n        swap(arr[i], arr[minIdx]);\n    }\n}\nint main() {\n    vector<int> arr = {64, 34, 25, 12}; selectionSort(arr);\n    for (int x : arr) cout << x << \" \"; // Output: 12 25 34 64\n}\n```",
+    "link": "https://www.geeksforgeeks.org/selection-sort/"
+  },
+  {
+    "id": "p35",
+    "title": "Counting Sort",
+    "description": "Sort an array with a limited range of values using counting sort.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Medium",
+    "solution": "Count occurrences and reconstruct sorted array.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid countingSort(vector<int>& arr) {\n    int maxVal = *max_element(arr.begin(), arr.end());\n    vector<int> count(maxVal + 1, 0);\n    for (int num : arr) count[num]++;\n    int idx = 0;\n    for (int i = 0; i <= maxVal; i++) {\n        while (count[i] > 0) {\n            arr[idx++] = i;\n            count[i]--;\n        }\n    }\n}\nint main() {\n    vector<int> arr = {4, 2, 2, 8, 3}; countingSort(arr);\n    for (int x : arr) cout << x << \" \"; // Output: 2 2 3 4 8\n}\n```",
+    "link": "https://www.geeksforgeeks.org/counting-sort/"
+  },
+  {
+    "id": "p36",
+    "title": "Radix Sort",
+    "description": "Sort an array using radix sort by processing digits.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Medium",
+    "solution": "Sort by each digit using counting sort.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint getMax(vector<int>& arr) {\n    return *max_element(arr.begin(), arr.end());\n}\nvoid countingSortForRadix(vector<int>& arr, int exp) {\n    vector<int> output(arr.size());\n    vector<int> count(10, 0);\n    for (int num : arr) count[(num / exp) % 10]++;\n    for (int i = 1; i < 10; i++) count[i] += count[i - 1];\n    for (int i = arr.size() - 1; i >= 0; i--) {\n        output[count[(arr[i] / exp) % 10] - 1] = arr[i];\n        count[(arr[i] / exp) % 10]--;\n    }\n    arr = output;\n}\nvoid radixSort(vector<int>& arr) {\n    int maxVal = getMax(arr);\n    for (int exp = 1; maxVal / exp > 0; exp *= 10)\n        countingSortForRadix(arr, exp);\n}\nint main() {\n    vector<int> arr = {170, 45, 75, 90}; radixSort(arr);\n    for (int x : arr) cout << x << \" \"; // Output: 45 75 90 170\n}\n```",
+    "link": "https://www.geeksforgeeks.org/radix-sort/"
+  },
+  {
+    "id": "p37",
+    "title": "Bucket Sort",
+    "description": "Sort an array by distributing elements into buckets.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Medium",
+    "solution": "Distribute into buckets and sort each bucket.\n\n```cpp\n#include <vector>\n#include <algorithm>\n#include <iostream>\nusing namespace std;\nvoid bucketSort(float arr[], int n) {\n    vector<float> buckets[n];\n    for (int i = 0; i < n; i++) {\n        int bucketIdx = n * arr[i];\n        buckets[bucketIdx].push_back(arr[i]);\n    }\n    for (int i = 0; i < n; i++) sort(buckets[i].begin(), buckets[i].end());\n    int idx = 0;\n    for (int i = 0; i < n; i++) {\n        for (float x : buckets[i]) arr[idx++] = x;\n    }\n}\nint main() {\n    float arr[] = {0.897, 0.565, 0.656, 0.123}; bucketSort(arr, 4);\n    for (int i = 0; i < 4; i++) cout << arr[i] << \" \"; // Output: 0.123 0.565 0.656 0.897\n}\n```",
+    "link": "https://www.geeksforgeeks.org/bucket-sort-2/"
+  },
+  {
+    "id": "p38",
+    "title": "Shell Sort",
+    "description": "Sort an array using the shell sort algorithm with gap sequences.",
+    "topic": "Sorting Algorithms",
+    "difficulty": "Medium",
+    "solution": "Sort with decreasing gaps using insertion sort.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid shellSort(vector<int>& arr) {\n    int n = arr.size();\n    for (int gap = n / 2; gap > 0; gap /= 2) {\n        for (int i = gap; i < n; i++) {\n            int temp = arr[i];\n            int j;\n            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {\n                arr[j] = arr[j - gap];\n            }\n            arr[j] = temp;\n        }\n    }\n}\nint main() {\n    vector<int> arr = {12, 34, 54, 2}; shellSort(arr);\n    for (int x : arr) cout << x << \" \"; // Output: 2 12 34 54\n}\n```",
+    "link": "https://www.geeksforgeeks.org/shellsort/"
+  },
+  {
+    "id": "p39",
+    "title": "Linear Search",
+    "description": "Find an element in an array using linear search.",
+    "topic": "Searching Algorithms",
+    "difficulty": "Easy",
+    "solution": "Iterate through array to find target.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint linearSearch(vector<int>& arr, int target) {\n    for (int i = 0; i < arr.size(); i++) {\n        if (arr[i] == target) return i;\n    }\n    return -1;\n}\nint main() {\n    vector<int> arr = {1, 3, 5, 7}; cout << linearSearch(arr, 5); // Output: 2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/linear-search/"
+  },
+  {
+    "id": "p40",
+    "title": "Ternary Search",
+    "description": "Find an element in a sorted array using ternary search.",
+    "topic": "Searching Algorithms",
+    "difficulty": "Medium",
+    "solution": "Divide array into three parts and recurse.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint ternarySearch(vector<int>& arr, int target, int left, int right) {\n    if (right < left) return -1;\n    int mid1 = left + (right - left) / 3;\n    int mid2 = right - (right - left) / 3;\n    if (arr[mid1] == target) return mid1;\n    if (arr[mid2] == target) return mid2;\n    if (target < arr[mid1]) return ternarySearch(arr, target, left, mid1 - 1);\n    else if (target > arr[mid2]) return ternarySearch(arr, target, mid2 + 1, right);\n    else return ternarySearch(arr, target, mid1 + 1, mid2 - 1);\n}\nint main() {\n    vector<int> arr = {1, 2, 3, 4, 5}; cout << ternarySearch(arr, 3, 0, 4); // Output: 2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/ternary-search/"
+  },
+  {
+    "id": "p41",
+    "title": "Interpolation Search",
+    "description": "Find an element in a sorted array using interpolation search.",
+    "topic": "Searching Algorithms",
+    "difficulty": "Medium",
+    "solution": "Estimate position using interpolation formula.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint interpolationSearch(vector<int>& arr, int target) {\n    int left = 0, right = arr.size() - 1;\n    while (left <= right && target >= arr[left] && target <= arr[right]) {\n        if (left == right) {\n            if (arr[left] == target) return left;\n            return -1;\n        }\n        int pos = left + ((double)(right - left) / (arr[right] - arr[left])) * (target - arr[left]);\n        if (arr[pos] == target) return pos;\n        if (arr[pos] < target) left = pos + 1;\n        else right = pos - 1;\n    }\n    return -1;\n}\nint main() {\n    vector<int> arr = {1, 2, 3, 4, 5}; cout << interpolationSearch(arr, 4); // Output: 3\n}\n```",
+    "link": "https://www.geeksforgeeks.org/interpolation-search/"
+  },
+  {
+    "id": "p42",
+    "title": "Fibonacci Search",
+    "description": "Find an element in a sorted array using Fibonacci numbers.",
+    "topic": "Searching Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use Fibonacci sequence to partition array.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint fibSearch(vector<int>& arr, int target) {\n    int n = arr.size();\n    int fib2 = 0, fib1 = 1, fib = fib1 + fib2;\n    while (fib < n) {\n        fib2 = fib1; fib1 = fib; fib = fib1 + fib2;\n    }\n    int offset = -1;\n    while (fib > 1) {\n        int i = min(offset + fib2, n - 1);\n        if (arr[i] < target) {\n            fib = fib2; fib1 = fib1 - fib2; fib2 = fib - fib1;\n            offset = i;\n        } else if (arr[i] > target) {\n            fib = fib1; fib1 = fib2; fib2 = fib - fib1;\n        } else return i;\n    }\n    if (fib1 && arr[offset + 1] == target) return offset + 1;\n    return -1;\n}\nint main() {\n    vector<int> arr = {1, 2, 3, 4, 5}; cout << fibSearch(arr, 3); // Output: 2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/fibonacci-search/"
+  },
+  {
+    "id": "p43",
+    "title": "Knuth-Morris-Pratt (KMP) Algorithm",
+    "description": "Efficient string matching using the KMP algorithm.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Build LPS array and match pattern.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nvector<int> computeLPS(string pattern) {\n    int m = pattern.size(), len = 0;\n    vector<int> lps(m, 0);\n    for (int i = 1; i < m; i++) {\n        while (len > 0 && pattern[i] != pattern[len]) len = lps[len - 1];\n        if (pattern[i] == pattern[len]) len++;\n        lps[i] = len;\n    }\n    return lps;\n}\nvector<int> kmpMatch(string text, string pattern) {\n    vector<int> result, lps = computeLPS(pattern);\n    int n = text.size(), m = pattern.size(), j = 0;\n    for (int i = 0; i < n; i++) {\n        while (j > 0 && text[i] != pattern[j]) j = lps[j - 1];\n        if (text[i] == pattern[j]) j++;\n        if (j == m) {\n            result.push_back(i - j + 1);\n            j = lps[j - 1];\n        }\n    }\n    return result;\n}\nint main() {\n    string text = \"ABABCD\", pattern = \"ABABC\"; auto matches = kmpMatch(text, pattern);\n    for (int i : matches) cout << i << \" \"; // Output: 0\n}\n```",
+    "link": "https://www.geeksforgeeks.org/kmp-algorithm-for-pattern-searching/"
+  },
+  {
+    "id": "p44",
+    "title": "Aho-Corasick Algorithm",
+    "description": "Multi-pattern string matching using a trie and failure links.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Build trie and use failure links for matching.\n\n```cpp\n#include <vector>\n#include <string>\n#include <queue>\n#include <iostream>\nusing namespace std;\n\nstruct TrieNode {\n    TrieNode* children[26] = {nullptr};\n    TrieNode* fail = nullptr;\n    bool isEnd = false;\n    int index;\n};\n\nclass AhoCorasick {\n    TrieNode* root;\npublic:\n    AhoCorasick(vector<string>& patterns) {\n        root = new TrieNode();\n        for (int i = 0; i < patterns.size(); i++) addPattern(patterns[i], i);\n        buildFailureLinks();\n    }\n    void addPattern(string pattern, int index) {\n        TrieNode* curr = root;\n        for (char c : pattern) {\n            int idx = c - 'a';\n            if (!curr->children[idx]) curr->children[idx] = new TrieNode();\n            curr = curr->children[idx];\n        }\n        curr->isEnd = true;\n        curr->index = index;\n    }\n    void buildFailureLinks() {\n        queue<TrieNode*> q;\n        root->fail = root;\n        for (int i = 0; i < 26; i++) {\n            if (root->children[i]) {\n                root->children[i]->fail = root;\n                q.push(root->children[i]);\n            }\n        }\n        while (!q.empty()) {\n            TrieNode* curr = q.front();\n            q.pop();\n            for (int i = 0; i < 26; i++) {\n                if (curr->children[i]) {\n                    TrieNode* child = curr->children[i];\n                    q.push(child);\n                    TrieNode* failNode = curr->fail;\n                    while (failNode != root && !failNode->children[i]) {\n                        failNode = failNode->fail;\n                    }\n                    child->fail = failNode->children[i] ? failNode->children[i] : root;\n                }\n            }\n        }\n    }\n    vector<int> search(string text) {\n        vector<int> matches;\n        TrieNode* curr = root;\n        for (int i = 0; i < text.size(); i++) {\n            int idx = text[i] - 'a';\n            while (curr != root && !curr->children[idx]) {\n                curr = curr->fail;\n            }\n            curr = curr->children[idx] ? curr->children[idx] : root;\n            TrieNode* temp = curr;\n            while (temp != root) {\n                if (temp->isEnd) matches.push_back({i - (temp->index), temp->index});\n                temp = temp->fail;\n            }\n        }\n        return matches;\n    }\n};\n\nint main() {\n    vector<string> patterns = {\"he\", \"she\", \"his\", \"hers\"};\n    AhoCorasick ac(patterns);\n    string text = \"ahishers\";\n    auto matches = ac.search(text);\n    for (auto& match : matches) cout << match.first << \" \" << match.second << endl;\n    // Output: 1 he, 3 she, 4 his, 5 hers\n}\n```",
+    "link": "https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/"
+  },
+  {
+    "id": "p45",
+    "title": "Manacher’s Algorithm",
+    "description": "Find the longest palindromic substring in linear time.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use Manacher’s algorithm with a palindrome radius array.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\n\nstring manacher(string s) {\n    string t = \"#\";\n    for (char c : s) {\n        t += c;\n        t += \"#\";\n    }\n    int n = t.size();\n    vector<int> p(n, 0);\n    int center = 0, right = 0;\n    for (int i = 0; i < n; i++) {\n        if (i < right) p[i] = min(right - i, p[2 * center - i]);\n        int left = i - (p[i] + 1), right = i + (p[i] + 1);\n        while (left >= 0 && right < n && t[left] == t[right]) {\n            p[i]++;\n            left--; right++;\n        }\n        if (i + p[i] > right) {\n            center = i;\n            right = i + p[i];\n        }\n    }\n    int maxLen = 0, centerIdx = 0;\n    for (int i = 0; i < n; i++) {\n        if (p[i] > maxLen) {\n            maxLen = p[i];\n            centerIdx = i;\n        }\n    }\n    int start = (centerIdx - maxLen) / 2;\n    return s.substr(start, maxLen);\n}\n\nint main() {\n    string s = \"babad\"; cout << manacher(s) << endl; // Output: bab\n}\n```",
+    "link": "https://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-1/"
+  },
+  {
+    "id": "p46",
+    "title": "Knapsack Problem (0/1)",
+    "description": "Find the maximum value that can be put in a knapsack of capacity W.",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "solution": "Use a 2D DP table to store maximum values.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\n\nint knapsack01(vector<int>& wt, vector<int>& val, int W, int n) {\n    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));\n    for (int i = 1; i <= n; i++) {\n        for (int w = 0; w <= W; w++) {\n            if (wt[i - 1] <= w) {\n                dp[i][w] = max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);\n            } else {\n                dp[i][w] = dp[i - 1][w];\n            }\n        }\n    }\n    return dp[n][W];\n}\n\nint main() {\n    vector<int> wt = {10, 20, 30}, val = {60, 100, 120};\n    cout << knapsack01(wt, val, 50, 3) << endl; // Output: 160\n}\n```",
+    "link": "https://leetcode.com/problems/partition-equal-subset-sum/description/"
+  },
+  {
+    "id": "p47",
+    "title": "Longest Increasing Subsequence",
+    "description": "Find the length of the longest increasing subsequence in an array.",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "solution": "Use DP to build lengths of increasing subsequences.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\n\nint longestIncreasingSubsequence(vector<int>& nums) {\n    int n = nums.size();\n    vector<int> dp(n, 1);\n    for (int i = 1; i < n; i++) {\n        for (int j = 0; j < i; j++) {\n            if (nums[i] > nums[j]) {\n                dp[i] = max(dp[i], dp[j] + 1);\n            }\n        }\n    }\n    return *max_element(dp.begin(), dp.end());\n}\n\nint main() {\n    vector<int> nums = {10, 9, 2, 5, 3, 7, 101}; cout << longestIncreasingSubsequence(nums) << endl; // Output: 4\n}\n```",
+    "link": "https://leetcode.com/problems/longest-increasing-subsequence/description/"
+  },
+  {
+    "id": "p48",
+    "title": "Matrix Chain Multiplication",
+    "description": "Find the minimum number of scalar multiplications for matrix chain multiplication.",
+    "topic": "Dynamic Programming",
+    "difficulty": "Hard",
+    "solution": "Use DP to store minimum costs.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\n\nint matrixChainMultiplication(vector<int>& dims) {\n    int n = dims.size() - 1;\n    vector<vector<int>> dp(n, vector<int>(n, 0));\n    for (int len = 2; len <= n; len++) {\n        for (int i = 0; i <= n - len; i++) {\n            int j = i + len - 1;\n            dp[i][j] = INT_MAX;\n            for (int k = i; k < j; k++) {\n                dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + dims[i] * dims[k + 1] * dims[j + 1]);\n            }\n        }\n    }\n    return dp[0][n - 1];\n}\n\nint main() {\n    vector<int> dims = {10, 30, 5, 60}; cout << matrixChainMultiplication(dims) << endl; // Output: 4500\n}\n```",
+    "link": "https://www.geeksforgeeks.org/matrix-chain-multiplication-dp-8/"
+  },
+  {
+    "id": "p49",
+    "title": "Edit Distance",
+    "description": "Find the minimum number of operations to transform one string into another.",
+    "topic": "Dynamic Programming",
+    "difficulty": "Hard",
+    "solution": "Use DP to compute edit distances.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\n\nint editDistance(string s1, string s2) {\n    int m = s1.size(), n = s2.size();\n    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));\n    for (int i = 0; i <= m; i++) dp[i][0] = i;\n    for (int j = 0; j <= n; j++) dp[0][j] = j;\n    for (int i = 1; i <= m; i++) {\n        for (int j = 1; j <= n; j++) {\n            if (s1[i - 1] == s2[j - 1]) dp[i][j] = dp[i - 1][j - 1];\n            else dp[i][j] = 1 + min({dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]});\n        }\n    }\n    return dp[m][n];\n}\n\nint main() {\n    string s1 = \"horse\", s2 = \"ros\"; cout << editDistance(s1, s2) << endl; // Output: 3\n}\n```",
+    "link": "https://leetcode.com/problems/edit-distance/description/"
+  },
+  {
+    "id": "p50",
+    "title": "Coin Change",
+    "description": "Find the minimum number of coins needed to make a given amount.",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "solution": "Use DP to build minimum coin counts.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\n\nint coinChange(vector<int>& coins, int amount) {\n    vector<int> dp(amount + 1, INT_MAX);\n    dp[0] = 0;\n    for (int i = 1; i <= amount; i++) {\n        for (int coin : coins) {\n            if (i >= coin && dp[i - coin] != INT_MAX) {\n                dp[i] = min(dp[i], dp[i - coin] + 1);\n            }\n        }\n    }\n    return dp[amount] == INT_MAX ? -1 : dp[amount];\n}\n\nint main() {\n    vector<int> coins = {1, 2, 5}; cout << coinChange(coins, 11) << endl; // Output: 3\n}\n```",
+    "link": "https://leetcode.com/problems/coin-change/description/"
+  },
+  {
+    "id": "p51",
+    "title": "Find Minimum Element in an Array",
+    "description": "Write a function to find the minimum element in an array of integers. For example, given [4, 2, 7, 1, 9], return 1.",
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "solution": "Loop through the array and track the minimum element.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint findMin(vector<int>& arr) {\n    // Initialize min with first element\n    int min = arr[0];\n    // Iterate to find smaller elements\n    for (int i = 1; i < arr.size(); i++) {\n        if (arr[i] < min) min = arr[i];\n    }\n    return min;\n}\nint main() {\n    vector<int> arr = {4, 2, 7, 1, 9};\n    cout << findMin(arr); // Output: 1\n}\n```",
+    "link": "https://www.geeksforgeeks.org/program-find-minimum-element-array/"
+  },
+  {
+    "id": "p52",
+    "title": "Reverse a String",
+    "description": "Write a function to reverse a string in place. For example, 'hello' → 'olleh'.",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "solution": "Use two pointers to swap characters from both ends.\n\n```cpp\n#include <string>\n#include <iostream>\nusing namespace std;\nvoid reverseString(string& str) {\n    int left = 0, right = str.size() - 1;\n    // Swap characters until pointers meet\n    while (left < right) {\n        swap(str[left++], str[right--]);\n    }\n}\nint main() {\n    string str = \"hello\";\n    reverseString(str);\n    cout << str; // Output: olleh\n}\n```",
+    "link": "https://www.geeksforgeeks.org/reverse-a-string-in-c-cpp-different-methods/"
+  },
+  {
+    "id": "p53",
+    "title": "Job Scheduling",
+    "description": "Given jobs with deadlines and profits, maximize profit by scheduling jobs within deadlines.",
+    "topic": "Greedy Algorithms",
+    "difficulty": "Medium",
+    "solution": "Sort jobs by profit and assign to latest possible slot.\n\n```cpp\n#include <vector>\n#include <algorithm>\n#include <iostream>\nusing namespace std;\nstruct Job { int id, deadline, profit; };\nint jobScheduling(vector<Job>& jobs) {\n    sort(jobs.begin(), jobs.end(), [](Job a, Job b) { return a.profit > b.profit; });\n    int maxDeadline = 0;\n    for (auto& job : jobs) maxDeadline = max(maxDeadline, job.deadline);\n    vector<int> slot(maxDeadline, -1);\n    int totalProfit = 0;\n    // Assign jobs to latest possible slot\n    for (auto& job : jobs) {\n        for (int j = min(maxDeadline, job.deadline) - 1; j >= 0; j--) {\n            if (slot[j] == -1) {\n                slot[j] = job.id;\n                totalProfit += job.profit;\n                break;\n            }\n        }\n    }\n    return totalProfit;\n}\nint main() {\n    vector<Job> jobs = {{1,2,100}, {2,1,50}, {3,2,20}};\n    cout << jobScheduling(jobs); // Output: 120\n}\n```",
+    "link": "https://www.geeksforgeeks.org/job-sequencing-problem/"
+  },
+  {
+    "id": "p54",
+    "title": "Detect Cycle in Directed Graph",
+    "description": "Check if a directed graph contains a cycle using DFS.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use a recursion stack to detect back edges.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nbool dfs(vector<vector<int>>& adj, int v, vector<bool>& visited, vector<bool>& recStack) {\n    visited[v] = true;\n    recStack[v] = true;\n    for (int u : adj[v]) {\n        if (!visited[u] && dfs(adj, u, visited, recStack)) return true;\n        else if (recStack[u]) return true;\n    }\n    recStack[v] = false;\n    return false;\n}\nbool hasCycle(vector<vector<int>>& adj) {\n    vector<bool> visited(adj.size(), false), recStack(adj.size(), false);\n    for (int v = 0; v < adj.size(); v++) {\n        if (!visited[v] && dfs(adj, v, visited, recStack)) return true;\n    }\n    return false;\n}\nint main() {\n    vector<vector<int>> adj = {{}, {2}, {3}, {1}};\n    cout << hasCycle(adj); // Output: 1\n}\n```",
+    "link": "https://www.geeksforgeeks.org/detect-cycle-in-a-graph/"
+  },
+  {
+    "id": "p55",
+    "title": "Kosaraju’s Algorithm",
+    "description": "Find strongly connected components in a directed graph.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use DFS twice with reversed graph.\n\n```cpp\n#include <vector>\n#include <stack>\n#include <iostream>\nusing namespace std;\nvoid dfs1(vector<vector<int>>& adj, int v, vector<bool>& visited, stack<int>& st) {\n    visited[v] = true;\n    for (int u : adj[v]) if (!visited[u]) dfs1(adj, u, visited, st);\n    st.push(v);\n}\nvoid dfs2(vector<vector<int>>& adj, int v, vector<bool>& visited, vector<int>& scc) {\n    visited[v] = true;\n    scc.push_back(v);\n    for (int u : adj[v]) if (!visited[u]) dfs2(adj, u, visited, scc);\n}\nvector<vector<int>> kosaraju(vector<vector<int>>& adj) {\n    int n = adj.size();\n    vector<bool> visited(n, false);\n    stack<int> st;\n    for (int v = 0; v < n; v++) if (!visited[v]) dfs1(adj, v, visited, st);\n    vector<vector<int>> adjT(n);\n    for (int v = 0; v < n; v++) for (int u : adj[v]) adjT[u].push_back(v);\n    vector<vector<int>> sccs;\n    fill(visited.begin(), visited.end(), false);\n    while (!st.empty()) {\n        int v = st.top(); st.pop();\n        if (!visited[v]) {\n            vector<int> scc;\n            dfs2(adjT, v, visited, scc);\n            sccs.push_back(scc);\n        }\n    }\n    return sccs;\n}\nint main() {\n    vector<vector<int>> adj = {{}, {2}, {3}, {1}};\n    auto sccs = kosaraju(adj);\n    for (auto& scc : sccs) { for (int v : scc) cout << v << \" \"; cout << endl; } // Output: 0 1 2 3\n}\n```",
+    "link": "https://www.geeksforgeeks.org/strongly-connected-components/"
+  },
+  {
+    "id": "p56",
+    "title": "Minimum Path Sum",
+    "description": "Find the minimum path sum from top-left to bottom-right in a grid, moving only down or right.",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "solution": "Use DP to compute minimum path sums.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint minPathSum(vector<vector<int>>& grid) {\n    int m = grid.size(), n = grid[0].size();\n    vector<vector<int>> dp(m, vector<int>(n, 0));\n    dp[0][0] = grid[0][0];\n    for (int i = 1; i < m; i++) dp[i][0] = dp[i-1][0] + grid[i][0];\n    for (int j = 1; j < n; j++) dp[0][j] = dp[0][j-1] + grid[0][j];\n    for (int i = 1; i < m; i++) {\n        for (int j = 1; j < n; j++) {\n            dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j];\n        }\n    }\n    return dp[m-1][n-1];\n}\nint main() {\n    vector<vector<int>> grid = {{1,3,1}, {1,5,1}, {4,2,1}};\n    cout << minPathSum(grid); // Output: 7\n}\n```",
+    "link": "https://leetcode.com/problems/minimum-path-sum/description/"
+  },
+  {
+    "id": "p57",
+    "title": "Count Bits in Range",
+    "description": "Count the total number of 1s in binary representations of numbers from 1 to n.",
+    "topic": "Bit Manipulation",
+    "difficulty": "Medium",
+    "solution": "Use bit counting for each number.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvector<int> countBits(int n) {\n    vector<int> ans(n + 1);\n    for (int i = 0; i <= n; i++) {\n        int num = i, count = 0;\n        while (num) {\n            num &= (num - 1);\n            count++;\n        }\n        ans[i] = count;\n    }\n    return ans;\n}\nint main() {\n    auto bits = countBits(5);\n    for (int x : bits) cout << x << \" \"; // Output: 0 1 1 2 1 2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/count-total-set-bits-in-all-numbers-from-1-to-n/"
+  },
+  {
+    "id": "p58",
+    "title": "Z Algorithm",
+    "description": "Find all occurrences of a pattern in a text using Z algorithm.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Compute Z array to find pattern matches.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nvector<int> zAlgorithm(string s) {\n    int n = s.size(), l = 0, r = 0;\n    vector<int> z(n, 0);\n    for (int i = 1; i < n; i++) {\n        if (i <= r) z[i] = min(r - i + 1, z[i - l]);\n        while (i + z[i] < n && s[z[i]] == s[i + z[i]]) z[i]++;\n        if (i + z[i] - 1 > r) l = i, r = i + z[i] - 1;\n    }\n    return z;\n}\nvector<int> findMatches(string text, string pattern) {\n    string s = pattern + \"$\" + text;\n    vector<int> z = zAlgorithm(s), result;\n    for (int i = 0; i < s.size(); i++) {\n        if (z[i] == pattern.size()) result.push_back(i - pattern.size() - 1);\n    }\n    return result;\n}\nint main() {\n    string text = \"AABAAC\", pattern = \"AA\";\n    auto matches = findMatches(text, pattern);\n    for (int i : matches) cout << i << \" \"; // Output: 0 3\n}\n```",
+    "link": "https://www.geeksforgeeks.org/z-algorithm-linear-time-pattern-searching-algorithm/"
+  },
+  {
+    "id": "p59",
+    "title": "Modular Inverse",
+    "description": "Find the modular inverse of a under modulo m (i.e., x such that a*x ≡ 1 (mod m)).",
+    "topic": "Number Theory",
+    "difficulty": "Medium",
+    "solution": "Use extended Euclidean algorithm.\n\n```cpp\n#include <iostream>\nusing namespace std;\nint extendedGCD(int a, int m, int& x, int& y) {\n    if (m == 0) { x = 1; y = 0; return a; }\n    int x1, y1;\n    int gcd = extendedGCD(m, a % m, x1, y1);\n    x = y1; y = x1 - (a / m) * y1;\n    return gcd;\n}\nint modInverse(int a, int m) {\n    int x, y;\n    int gcd = extendedGCD(a, m, x, y);\n    if (gcd != 1) return -1;\n    return (x % m + m) % m;\n}\nint main() {\n    cout << modInverse(3, 11); // Output: 4\n}\n```",
+    "link": "https://www.geeksforgeeks.org/multiplicative-inverse-under-modulo-m/"
+  },
+  {
+    "id": "p60",
+    "title": "Line Sweep for Intervals",
+    "description": "Find the maximum number of overlapping intervals.",
+    "topic": "Computational Geometry",
+    "difficulty": "Medium",
+    "solution": "Use a sweep line to track active intervals.\n\n```cpp\n#include <vector>\n#include <algorithm>\n#include <iostream>\nusing namespace std;\nint maxOverlappingIntervals(vector<pair<int,int>>& intervals) {\n    vector<pair<int,int>> points;\n    for (auto& [start, end] : intervals) {\n        points.push_back({start, 1});\n        points.push_back({end, -1});\n    }\n    sort(points.begin(), points.end());\n    int maxCount = 0, count = 0;\n    for (auto& [x, delta] : points) {\n        count += delta;\n        maxCount = max(maxCount, count);\n    }\n    return maxCount;\n}\nint main() {\n    vector<pair<int,int>> intervals = {{1,4}, {2,5}, {3,6}};\n    cout << maxOverlappingIntervals(intervals); // Output: 3\n}\n```",
+    "link": "https://www.geeksforgeeks.org/line-sweep-algorithms/"
+  },
+  {
+    "id": "p61",
+    "title": "Partition Problem",
+    "description": "Determine if an array can be partitioned into two subsets with equal sum.",
+    "topic": "NP Problems",
+    "difficulty": "Medium",
+    "solution": "Use dynamic programming to check subset sum.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nbool canPartition(vector<int>& nums) {\n    int sum = 0;\n    for (int num : nums) sum += num;\n    if (sum % 2 != 0) return false;\n    sum /= 2;\n    vector<bool> dp(sum + 1, false);\n    dp[0] = true;\n    for (int num : nums) {\n        for (int i = sum; i >= num; i--) {\n            dp[i] |= dp[i - num];\n        }\n    }\n    return dp[sum];\n}\nint main() {\n    vector<int> nums = {1,5,11,5};\n    cout << canPartition(nums); // Output: 1\n}\n```",
+    "link": "https://leetcode.com/problems/partition-equal-subset-sum/description/"
+  },
+  {
+    "id": "p62",
+    "title": "N-Queens Problem",
+    "description": "Place N queens on an NxN chessboard so no two queens threaten each other.",
+    "topic": "NP Problems",
+    "difficulty": "Hard",
+    "solution": "Use backtracking to try valid placements.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nbool isSafe(vector<int>& board, int row, int col) {\n    for (int i = 0; i < row; i++) {\n        if (board[i] == col || abs(board[i] - col) == abs(i - row)) return false;\n    }\n    return true;\n}\nbool solveNQueens(vector<int>& board, int row, int n) {\n    if (row == n) return true;\n    for (int col = 0; col < n; col++) {\n        if (isSafe(board, row, col)) {\n            board[row] = col;\n            if (solveNQueens(board, row + 1, n)) return true;\n            board[row] = -1;\n        }\n    }\n    return false;\n}\nint main() {\n    int n = 4;\n    vector<int> board(n, -1);\n    cout << solveNQueens(board, 0, n); // Output: 1\n}\n```",
+    "link": "https://www.geeksforgeeks.org/n-queen-problem/"
+  },
+  {
+    "id": "p63",
+    "title": "Kadane’s Algorithm for Maximum Circular Subarray",
+    "description": "Find the maximum sum of a subarray in a circular array.",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "solution": "Use Kadane’s algorithm for max and min subarrays.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint kadane(vector<int>& arr) {\n    int maxSoFar = arr[0], maxEndingHere = arr[0];\n    for (int i = 1; i < arr.size(); i++) {\n        maxEndingHere = max(arr[i], maxEndingHere + arr[i]);\n        maxSoFar = max(maxSoFar, maxEndingHere);\n    }\n    return maxSoFar;\n}\nint maxCircularSum(vector<int>& arr) {\n    int maxNormal = kadane(arr);\n    if (maxNormal < 0) return maxNormal;\n    int sum = 0;\n    for (int i = 0; i < arr.size(); i++) {\n        sum += arr[i];\n        arr[i] = -arr[i];\n    }\n    int maxCircular = sum + kadane(arr);\n    return max(maxNormal, maxCircular);\n}\nint main() {\n    vector<int> arr = {1,-2,3,-2};\n    cout << maxCircularSum(arr); // Output: 3\n}\n```",
+    "link": "https://www.geeksforgeeks.org/maximum-sum-circular-subarray-using-kadane/"
+  },
+  {
+    "id": "p64",
+    "title": "Longest Valid Parentheses",
+    "description": "Find the length of the longest valid parentheses substring.",
+    "topic": "Strings",
+    "difficulty": "Hard",
+    "solution": "Use a stack to track valid pairs.\n\n```cpp\n#include <string>\n#include <stack>\n#include <iostream>\nusing namespace std;\nint longestValidParentheses(string s) {\n    stack<int> st;\n    st.push(-1);\n    int maxLen = 0;\n    for (int i = 0; i < s.size(); i++) {\n        if (s[i] == '(') st.push(i);\n        else {\n            st.pop();\n            if (st.empty()) st.push(i);\n            else maxLen = max(maxLen, i - st.top());\n        }\n    }\n    return maxLen;\n}\nint main() {\n    string s = \")()())\";\n    cout << longestValidParentheses(s); // Output: 4\n}\n```",
+    "link": "https://leetcode.com/problems/longest-valid-parentheses/description/"
+  },
+  {
+    "id": "p65",
+    "title": "Disjoint Set Union (DSU) for Connected Components",
+    "description": "Find the number of connected components in an undirected graph.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use DSU to merge connected vertices.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nstruct DSU {\n    vector<int> parent, rank;\n    DSU(int n) : parent(n), rank(n, 0) {\n        for (int i = 0; i < n; i++) parent[i] = i;\n    }\n    int find(int x) {\n        if (parent[x] != x) parent[x] = find(parent[x]);\n        return parent[x];\n    }\n    void unite(int x, int y) {\n        int px = find(x), py = find(y);\n        if (px == py) return;\n        if (rank[px] < rank[py]) swap(px, py);\n        parent[py] = px;\n        if (rank[px] == rank[py]) rank[px]++;\n    }\n};\nint countComponents(vector<vector<int>>& edges, int n) {\n    DSU dsu(n);\n    for (auto& e : edges) dsu.unite(e[0], e[1]);\n    vector<bool> seen(n, false);\n    int count = 0;\n    for (int i = 0; i < n; i++) {\n        if (!seen[dsu.find(i)]) {\n            seen[dsu.find(i)] = true;\n            count++;\n        }\n    }\n    return count;\n}\nint main() {\n    vector<vector<int>> edges = {{0,1}, {1,2}, {3,4}};\n    cout << countComponents(edges, 5); // Output: 2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/disjoint-set-data-structures/"
+  },
+  {
+    "id": "p66",
+    "title": "Power Set Generation",
+    "description": "Generate all possible subsets of a given set.",
+    "topic": "Bit Manipulation",
+    "difficulty": "Medium",
+    "solution": "Use bit manipulation to represent subsets.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvector<vector<int>> powerSet(vector<int>& nums) {\n    vector<vector<int>> result;\n    int n = nums.size(), total = 1 << n;\n    for (int mask = 0; mask < total; mask++) {\n        vector<int> subset;\n        for (int i = 0; i < n; i++) {\n            if (mask & (1 << i)) subset.push_back(nums[i]);\n        }\n        result.push_back(subset);\n    }\n    return result;\n}\nint main() {\n    vector<int> nums = {1,2};\n    auto subsets = powerSet(nums);\n    for (auto& subset : subsets) {\n        for (int x : subset) cout << x << \" \";\n        cout << endl;\n    } // Output: {} {1} {2} {1,2}\n}\n```",
+    "link": "https://www.geeksforgeeks.org/power-set/"
+  },
+  {
+    "id": "p67",
+    "title": "Manacher’s Algorithm",
+    "description": "Find the longest palindromic substring in linear time.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use Manacher’s algorithm to find palindrome lengths.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nstring manacher(string s) {\n    string t = \"$#\";\n    for (char c : s) { t += c; t += '#'; }\n    t += '@';\n    int n = t.size();\n    vector<int> p(n, 0);\n    int c = 0, r = 0;\n    for (int i = 1; i < n - 1; i++) {\n        if (i < r) p[i] = min(r - i, p[2 * c - i]);\n        while (t[i + p[i] + 1] == t[i - p[i] - 1]) p[i]++;\n        if (i + p[i] > r) { c = i; r = i + p[i]; }\n    }\n    int maxLen = 0, center = 0;\n    for (int i = 1; i < n - 1; i++) {\n        if (p[i] > maxLen) { maxLen = p[i]; center = i; }\n    }\n    int start = (center - maxLen) / 2;\n    return s.substr(start, maxLen);\n}\nint main() {\n    string s = \"babad\";\n    cout << manacher(s); // Output: bab or aba\n}\n```",
+    "link": "https://www.geeksforgeeks.org/manachers-algorithm-linear-time-longest-palindromic-substring-part-1/"
+  },
+  {
+    "id": "p68",
+    "title": "Fast Fourier Transform (FFT)",
+    "description": "Multiply two large polynomials efficiently using FFT.",
+    "topic": "Number Theory",
+    "difficulty": "Hard",
+    "solution": "Use recursive FFT for polynomial multiplication.\n\n```cpp\n#include <vector>\n#include <complex>\n#include <iostream>\nusing namespace std;\nusing cd = complex<double>;\nconst double PI = acos(-1);\nvoid fft(vector<cd>& a, bool invert) {\n    int n = a.size();\n    if (n == 1) return;\n    vector<cd> a0(n / 2), a1(n / 2);\n    for (int i = 0; i < n / 2; i++) {\n        a0[i] = a[2 * i]; a1[i] = a[2 * i + 1];\n    }\n    fft(a0, invert); fft(a1, invert);\n    double ang = 2 * PI / n * (invert ? -1 : 1);\n    cd w(1), wn(cos(ang), sin(ang));\n    for (int i = 0; i < n / 2; i++) {\n        a[i] = a0[i] + w * a1[i];\n        a[i + n / 2] = a0[i] - w * a1[i];\n        if (invert) { a[i] /= 2; a[i + n / 2] /= 2; }\n        w *= wn;\n    }\n}\nvector<int> multiply(vector<int>& a, vector<int>& b) {\n    int n = 1;\n    while (n < a.size() + b.size()) n <<= 1;\n    vector<cd> fa(a.begin(), a.end()), fb(b.begin(), b.end());\n    fa.resize(n); fb.resize(n);\n    fft(fa, false); fft(fb, false);\n    for (int i = 0; i < n; i++) fa[i] *= fb[i];\n    fft(fa, true);\n    vector<int> result(n);\n    for (int i = 0; i < n; i++) result[i] = round(fa[i].real());\n    return result;\n}\nint main() {\n    vector<int> a = {1,2}, b = {2,1};\n    auto result = multiply(a, b);\n    for (int x : result) cout << x << \" \"; // Output: 2 5 2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/fast-fourier-transformation-poynomial-multiplication/"
+  },
+  {
+    "id": "p69",
+    "title": "Graham’s Scan for Convex Polygon",
+    "description": "Determine if a polygon is convex using Graham’s scan.",
+    "topic": "Computational Geometry",
+    "difficulty": "Medium",
+    "solution": "Check if all turns are in the same direction.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nstruct Point { int x, y; };\nlong long cross(Point a, Point b, Point c) {\n    return (b.x - a.x) * (long long)(c.y - a.y) - (b.y - a.y) * (long long)(c.x - a.x);\n}\nbool isConvex(vector<Point>& points) {\n    int n = points.size();\n    long long prev = 0;\n    for (int i = 0; i < n; i++) {\n        long long curr = cross(points[i], points[(i+1)%n], points[(i+2)%n]);\n        if (curr != 0) {\n            if (prev == 0) prev = curr;\n            else if (curr * prev < 0) return false;\n        }\n    }\n    return true;\n}\nint main() {\n    vector<Point> points = {{0,0}, {2,0}, {2,2}, {0,2}};\n    cout << isConvex(points); // Output: 1\n}\n```",
+    "link": "https://www.geeksforgeeks.org/convex-hull-using-graham-scan/"
+  },
+  {
+    "id": "p70",
+    "title": "Vertex Cover",
+    "description": "Find the minimum vertex cover in a bipartite graph.",
+    "topic": "NP Problems",
+    "difficulty": "Hard",
+    "solution": "Use greedy approximation for simplicity.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint vertexCover(vector<vector<int>>& adj) {\n    vector<bool> covered(adj.size(), false);\n    int count = 0;\n    for (int u = 0; u < adj.size(); u++) {\n        if (!covered[u]) {\n            for (int v : adj[u]) {\n                if (!covered[v]) {\n                    covered[u] = covered[v] = true;\n                    count++;\n                    break;\n                }\n            }\n        }\n    }\n    return count;\n}\nint main() {\n    vector<vector<int>> adj = {{}, {2}, {1,3}, {2}};\n    cout << vertexCover(adj); // Output: 2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/vertex-cover-problem/"
+  },
+  {
+    "id": "p71",
+    "title": "Remove Duplicates from Sorted Array",
+    "description": "Remove duplicates from a sorted array in place, returning the new length.",
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "solution": "Use two pointers to skip duplicates.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint removeDuplicates(vector<int>& nums) {\n    if (nums.empty()) return 0;\n    int k = 1;\n    for (int i = 1; i < nums.size(); i++) {\n        if (nums[i] != nums[k-1]) nums[k++] = nums[i];\n    }\n    return k;\n}\nint main() {\n    vector<int> nums = {1,1,2,2,3};\n    int len = removeDuplicates(nums);\n    for (int i = 0; i < len; i++) cout << nums[i] << \" \"; // Output: 1 2 3\n}\n```",
+    "link": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/"
+  },
+  {
+    "id": "p72",
+    "title": "Anagram Check",
+    "description": "Check if two strings are anagrams of each other.",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "solution": "Use a frequency array to compare character counts.\n\n```cpp\n#include <string>\n#include <iostream>\nusing namespace std;\nbool isAnagram(string s, string t) {\n    if (s.size() != t.size()) return false;\n    vector<int> freq(26, 0);\n    for (int i = 0; i < s.size(); i++) {\n        freq[s[i] - 'a']++;\n        freq[t[i] - 'a']--;\n    }\n    for (int x : freq) if (x != 0) return false;\n    return true;\n}\nint main() {\n    string s = \"listen\", t = \"silent\";\n    cout << isAnagram(s, t); // Output: 1\n}\n```",
+    "link": "https://www.geeksforgeeks.org/check-whether-two-strings-are-anagram-of-each-other/"
+  },
+  {
+    "id": "p73",
+    "title": "Minimum Spanning Tree Cost",
+    "description": "Find the total cost of the minimum spanning tree using Kruskal’s algorithm.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Sum weights of MST edges.\n\n```cpp\n#include <vector>\n#include <algorithm>\n#include <iostream>\nusing namespace std;\nstruct Edge { int u, v, w; };\nint find(vector<int>& parent, int x) {\n    if (parent[x] != x) parent[x] = find(parent, parent[x]);\n    return parent[x];\n}\nint kruskalCost(vector<Edge>& edges, int n) {\n    vector<int> parent(n);\n    for (int i = 0; i < n; i++) parent[i] = i;\n    sort(edges.begin(), edges.end(), [](Edge a, Edge b) { return a.w < b.w; });\n    int cost = 0;\n    for (auto& e : edges) {\n        int pu = find(parent, e.u), pv = find(parent, e.v);\n        if (pu != pv) {\n            cost += e.w;\n            parent[pu] = pv;\n        }\n    }\n    return cost;\n}\nint main() {\n    vector<Edge> edges = {{0,1,2}, {1,2,3}, {0,2,4}};\n    cout << kruskalCost(edges, 3); // Output: 5\n}\n```",
+    "link": "https://www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm/"
+  },
+  {
+    "id": "p74",
+    "title": "Set Bit at Position",
+    "description": "Set the kth bit of a number (0-based index).",
+    "topic": "Bit Manipulation",
+    "difficulty": "Easy",
+    "solution": "Use OR with a shifted 1.\n\n```cpp\n#include <iostream>\nusing namespace std;\nint setBit(int n, int k) {\n    return n | (1 << k);\n}\nint main() {\n    cout << setBit(5, 1); // Output: 7 (binary: 101 → 111)\n}\n```",
+    "link": "https://www.geeksforgeeks.org/set-k-th-bit-given-number/"
+  },
+  {
+    "id": "p75",
+    "title": "Longest Repeating Character Replacement",
+    "description": "Find the longest substring with at most k replacements to make all characters the same.",
+    "topic": "String Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use sliding window with frequency tracking.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nint characterReplacement(string s, int k) {\n    vector<int> freq(26, 0);\n    int maxLen = 0, maxFreq = 0, left = 0;\n    for (int right = 0; right < s.size(); right++) {\n        maxFreq = max(maxFreq, ++freq[s[right] - 'A']);\n        while (right - left + 1 - maxFreq > k) {\n            freq[s[left] - 'A']--;\n            left++;\n        }\n        maxLen = max(maxLen, right - left + 1);\n    }\n    return maxLen;\n}\nint main() {\n    string s = \"AABABBA\";\n    cout << characterReplacement(s, 1); // Output: 4\n}\n```",
+    "link": "https://leetcode.com/problems/longest-repeating-character-replacement/description/"
+  },
+  {
+    "id": "p76",
+    "title": "Chinese Remainder Theorem",
+    "description": "Solve a system of modular equations with coprime moduli.",
+    "topic": "Number Theory",
+    "difficulty": "Hard",
+    "solution": "Use modular arithmetic to combine solutions.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nlong long modInverse(long long a, long long m) {\n    long long m0 = m, x0 = 0, x1 = 1;\n    while (m != 0) {\n        long long q = a / m, t = m;\n        m = a % m; a = t;\n        t = x0; x0 = x1 - q * x0; x1 = t;\n    }\n    return x1 < 0 ? x1 + m0 : x1;\n}\nlong long crt(vector<int>& a, vector<int>& m) {\n    long long prod = 1, result = 0;\n    for (int x : m) prod *= x;\n    for (int i = 0; i < a.size(); i++) {\n        long long p = prod / m[i];\n        result += a[i] * p * modInverse(p, m[i]);\n    }\n    return result % prod;\n}\nint main() {\n    vector<int> a = {2,3}, m = {3,5};\n    cout << crt(a, m); // Output: 8\n}\n```",
+    "link": "https://www.geeksforgeeks.org/chinese-remainder-theorem-set-2-implementation/"
+  },
+  {
+    "id": "p77",
+    "title": "Polygon Triangulation",
+    "description": "Compute the minimum cost to triangulate a convex polygon.",
+    "topic": "Computational Geometry",
+    "difficulty": "Hard",
+    "solution": "Use dynamic programming for triangulation.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\ndouble cost(vector<pair<int,int>>& points, int i, int j, int k) {\n    return sqrt(pow(points[i].first - points[j].first, 2) + pow(points[i].second - points[j].second, 2)) +\n           sqrt(pow(points[j].first - points[k].first, 2) + pow(points[j].second - points[k].second, 2)) +\n           sqrt(pow(points[k].first - points[i].first, 2) + pow(points[k].second - points[i].second, 2));\n}\ndouble minTriangulation(vector<pair<int,int>>& points) {\n    int n = points.size();\n    vector<vector<double>> dp(n, vector<double>(n, 1e9));\n    for (int i = 0; i < n - 1; i++) dp[i][i+1] = 0;\n    for (int len = 3; len <= n; len++) {\n        for (int i = 0; i <= n - len; i++) {\n            int j = i + len - 1;\n            for (int k = i + 1; k < j; k++) {\n                dp[i][j] = min(dp[i][j], dp[i][k] + dp[k][j] + cost(points, i, k, j));\n            }\n        }\n    }\n    return dp[0][n-1];\n}\nint main() {\n    vector<pair<int,int>> points = {{0,0}, {1,0}, {2,1}, {1,2}, {0,2}};\n    cout << minTriangulation(points); // Output: ~8.48\n}\n```",
+    "link": "https://www.geeksforgeeks.org/dynamic-programming-set-27-partition-problem/"
+  },
+  {
+    "id": "p78",
+    "title": "Independent Set",
+    "description": "Find the size of the maximum independent set in a tree.",
+    "topic": "NP Problems",
+    "difficulty": "Hard",
+    "solution": "Use tree DP to choose or skip nodes.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint maxIndependentSet(vector<vector<int>>& adj, int v, int parent, vector<vector<int>>& dp) {\n    if (dp[v][0] != -1 && dp[v][1] != -1) return max(dp[v][0], dp[v][1]);\n    int include = 1, exclude = 0;\n    for (int u : adj[v]) {\n        if (u != parent) include += maxIndependentSet(adj, u, v, dp);\n    }\n    for (int u : adj[v]) {\n        if (u != parent) {\n            for (int w : adj[u]) {\n                if (w != v) exclude += maxIndependentSet(adj, w, u, dp);\n            }\n        }\n    }\n    dp[v][0] = include; dp[v][1] = exclude;\n    return max(include, exclude);\n}\nint main() {\n    vector<vector<int>> adj = {{1,2}, {0}, {0}};\n    vector<vector<int>> dp(adj.size(), vector<int>(2, -1));\n    cout << maxIndependentSet(adj, 0, -1, dp); // Output: 2\n}\n```",
+    "link": "https://www.geeksforgeeks.org/maximum-independent-set-problem/"
+  },
+  {
+    "id": "p79",
+    "title": "Merge Intervals",
+    "description": "Merge overlapping intervals into non-overlapping ones.",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "solution": "Sort intervals by start time and merge overlapping ones.\n\n```cpp\n#include <vector>\n#include <algorithm>\n#include <iostream>\nusing namespace std;\nvector<vector<int>> mergeIntervals(vector<vector<int>>& intervals) {\n    sort(intervals.begin(), intervals.end());\n    vector<vector<int>> result;\n    result.push_back(intervals[0]);\n    for (int i = 1; i < intervals.size(); i++) {\n        if (result.back()[1] >= intervals[i][0]) {\n            result.back()[1] = max(result.back()[1], intervals[i][1]);\n        } else {\n            result.push_back(intervals[i]);\n        }\n    }\n    return result;\n}\nint main() {\n    vector<vector<int>> intervals = {{1,3}, {2,6}, {8,10}};\n    auto merged = mergeIntervals(intervals);\n    for (auto& interval : merged) cout << interval[0] << \",\" << interval[1] << \" \"; // Output: 1,6 8,10\n}\n```",
+    "link": "https://leetcode.com/problems/merge-intervals/description/"
+  },
+  {
+    "id": "p80",
+    "title": "String to Integer (atoi)",
+    "description": "Convert a string to a 32-bit signed integer, handling whitespace, signs, and overflow.",
+    "topic": "Strings",
+    "difficulty": "Medium",
+    "solution": "Parse string while checking bounds.\n\n```cpp\n#include <string>\n#include <iostream>\nusing namespace std;\nint atoi(string s) {\n    int i = 0, sign = 1;\n    long long result = 0;\n    while (i < s.size() && s[i] == ' ') i++;\n    if (i < s.size() && (s[i] == '+' || s[i] == '-')) sign = s[i++] == '+' ? 1 : -1;\n    while (i < s.size() && isdigit(s[i])) {\n        result = result * 10 + (s[i] - '0');\n        if (result * sign > INT_MAX) return INT_MAX;\n        if (result * sign < INT_MIN) return INT_MIN;\n        i++;\n    }\n    return result * sign;\n}\nint main() {\n    string s = \"   -42\";\n    cout << atoi(s); // Output: -42\n}\n```",
+    "link": "https://leetcode.com/problems/string-to-integer-atoi/description/"
+  },
+  {
+    "id": "p81",
+    "title": "Top K Frequent Elements",
+    "description": "Find the k most frequent elements in an array.",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "solution": "Use a hash map and priority queue.\n\n```cpp\n#include <vector>\n#include <unordered_map>\n#include <queue>\n#include <iostream>\nusing namespace std;\nvector<int> topKFrequent(vector<int>& nums, int k) {\n    unordered_map<int, int> freq;\n    for (int num : nums) freq[num]++;\n    priority_queue<pair<int, int>> pq;\n    for (auto& [num, count] : freq) pq.push({count, num});\n    vector<int> result;\n    while (k--) {\n        result.push_back(pq.top().second);\n        pq.pop();\n    }\n    return result;\n}\nint main() {\n    vector<int> nums = {1,1,1,2,2,3};\n    auto result = topKFrequent(nums, 2);\n    for (int x : result) cout << x << \" \"; // Output: 1 2\n}\n```",
+    "link": "https://leetcode.com/problems/top-k-frequent-elements/description/"
+  },
+  {
+    "id": "p82",
+    "title": "Minimum Window Substring",
+    "description": "Find the smallest substring containing all characters of another string.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use sliding window with character frequency.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nstring minWindow(string s, string t) {\n    vector<int> freq(128, 0);\n    int required = t.size(), formed = 0;\n    for (char c : t) freq[c]++;\n    int left = 0, minLen = INT_MAX, minLeft = 0;\n    for (int right = 0; right < s.size(); right++) {\n        if (freq[s[right]] > 0) formed++;\n        freq[s[right]]--;\n        while (formed == required) {\n            if (right - left + 1 < minLen) {\n                minLen = right - left + 1;\n                minLeft = left;\n            }\n            if (freq[s[left]] == 0) formed--;\n            freq[s[left]]++;\n            left++;\n        }\n    }\n    return minLen == INT_MAX ? \"\" : s.substr(minLeft, minLen);\n}\nint main() {\n    string s = \"ADOBECODEBANC\", t = \"ABC\";\n    cout << minWindow(s, t); // Output: BANC\n}\n```",
+    "link": "https://leetcode.com/problems/minimum-window-substring/description/"
+  },
+  {
+    "id": "p83",
+    "title": "Euler’s Totient Function",
+    "description": "Compute the count of numbers up to n that are coprime with n.",
+    "topic": "Number Theory",
+    "difficulty": "Medium",
+    "solution": "Use prime factorization to compute totient.\n\n```cpp\n#include <iostream>\nusing namespace std;\nint eulerTotient(int n) {\n    int result = n;\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0) {\n            while (n % i == 0) n /= i;\n            result -= result / i;\n        }\n    }\n    if (n > 1) result -= result / n;\n    return result;\n}\nint main() {\n    cout << eulerTotient(12); // Output: 4\n}\n```",
+    "link": "https://www.geeksforgeeks.org/eulers-totient-function/"
+  },
+  {
+    "id": "p84",
+    "title": "Segment Tree for Range Sum",
+    "description": "Build a segment tree to handle range sum queries and updates.",
+    "topic": "Data Structures",
+    "difficulty": "Hard",
+    "solution": "Use a tree to store range sums.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nstruct SegmentTree {\n    vector<long long> tree;\n    int n;\n    SegmentTree(vector<int>& arr) : n(arr.size()) {\n        tree.resize(4 * n);\n        build(arr, 0, 0, n - 1);\n    }\n    void build(vector<int>& arr, int node, int start, int end) {\n        if (start == end) { tree[node] = arr[start]; return; }\n        int mid = (start + end) / 2;\n        build(arr, 2 * node + 1, start, mid);\n        build(arr, 2 * node + 2, mid + 1, end);\n        tree[node] = tree[2 * node + 1] + tree[2 * node + 2];\n    }\n    void update(int idx, int val, int node, int start, int end) {\n        if (start == end) { tree[node] = val; return; }\n        int mid = (start + end) / 2;\n        if (idx <= mid) update(idx, val, 2 * node + 1, start, mid);\n        else update(idx, val, 2 * node + 2, mid + 1, end);\n        tree[node] = tree[2 * node + 1] + tree[2 * node + 2];\n    }\n    long long query(int l, int r, int node, int start, int end) {\n        if (r < start || l > end) return 0;\n        if (l <= start && r >= end) return tree[node];\n        int mid = (start + end) / 2;\n        return query(l, r, 2 * node + 1, start, mid) + query(l, r, 2 * node + 2, mid + 1, end);\n    }\n};\nint main() {\n    vector<int> arr = {1,3,5,7,9};\n    SegmentTree st(arr);\n    cout << st.query(1, 3, 0, 0, arr.size() - 1); // Output: 15\n}\n```",
+    "link": "https://www.geeksforgeeks.org/segment-tree-set-1-sum-of-given-range/"
+  },
+  {
+    "id": "p85",
+    "title": "Longest Increasing Subsequence",
+    "description": "Find the length of the longest increasing subsequence in an array.",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "solution": "Use DP with binary search for efficiency.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nint lengthOfLIS(vector<int>& nums) {\n    vector<int> dp;\n    for (int num : nums) {\n        auto it = lower_bound(dp.begin(), dp.end(), num);\n        if (it == dp.end()) dp.push_back(num);\n        else *it = num;\n    }\n    return dp.size();\n}\nint main() {\n    vector<int> nums = {10,9,2,5,3,7,101,18};\n    cout << lengthOfLIS(nums); // Output: 4\n}\n```",
+    "link": "https://leetcode.com/problems/longest-increasing-subsequence/description/"
+  },
+  {
+    "id": "p86",
+    "title": "Find Median in Two Sorted Arrays",
+    "description": "Find the median of two sorted arrays of different sizes.",
+    "topic": "Arrays",
+    "difficulty": "Hard",
+    "solution": "Use binary search to partition arrays.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\ndouble findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {\n    if (nums1.size() > nums2.size()) swap(nums1, nums2);\n    int m = nums1.size(), n = nums2.size();\n    int left = 0, right = m;\n    while (left <= right) {\n        int px = (left + right) / 2, py = (m + n + 1) / 2 - px;\n        int l1 = px == 0 ? INT_MIN : nums1[px-1];\n        int r1 = px == m ? INT_MAX : nums1[px];\n        int l2 = py == 0 ? INT_MIN : nums2[py-1];\n        int r2 = py == n ? INT_MAX : nums2[py];\n        if (l1 <= r2 && l2 <= r1) {\n            if ((m + n) % 2 == 0) return (max(l1, l2) + min(r1, r2)) / 2.0;\n            return max(l1, l2);\n        }\n        if (l1 > r2) right = px - 1;\n        else left = px + 1;\n    }\n    return 0;\n}\nint main() {\n    vector<int> nums1 = {1,3}, nums2 = {2};\n    cout << findMedianSortedArrays(nums1, nums2); // Output: 2\n}\n```",
+    "link": "https://leetcode.com/problems/median-of-two-sorted-arrays/description/"
+  },
+  {
+    "id": "p88",
+    "title": "Regular Expression Matching",
+    "description": "Implement regular expression matching with '.' and '*'.",
+    "topic": "String Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use dynamic programming to match patterns.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nbool isMatch(string s, string p) {\n    int m = s.size(), n = p.size();\n    vector<vector<bool>> dp(m + 1, vector<bool>(n + 1, false));\n    dp[0][0] = true;\n    for (int j = 1; j <= n; j++) {\n        if (p[j - 1] == '*' && dp[0][j - 2]) dp[0][j] = true;\n    }\n    for (int i = 1; i <= m; i++) {\n        for (int j = 1; j <= n; j++) {\n            if (p[j - 1] == s[i - 1] || p[j - 1] == '.') dp[i][j] = dp[i - 1][j - 1];\n            else if (p[j - 1] == '*') {\n                dp[i][j] = dp[i][j - 2] || (dp[i - 1][j] && (s[i - 1] == p[j - 2] || p[j - 2] == '.'));\n            }\n        }\n    }\n    return dp[m][n];\n}\nint main() {\n    string s = \"aa\", p = \"a*\";\n    cout << isMatch(s, p); // Output: 1\n}\n```",
+    "link": "https://leetcode.com/problems/regular-expression-matching/description/"
+  },
+  {
+    "id": "p89",
+    "title": "Longest Common Subsequence",
+    "description": "Find the length of the longest common subsequence between two strings.",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "solution": "Use a 2D DP table to build the LCS.\n\n```cpp\n#include <string>\n#include <vector>\n#include <iostream>\nusing namespace std;\nint longestCommonSubsequence(string text1, string text2) {\n    int m = text1.size(), n = text2.size();\n    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));\n    for (int i = 1; i <= m; i++) {\n        for (int j = 1; j <= n; j++) {\n            if (text1[i - 1] == text2[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;\n            else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);\n        }\n    }\n    return dp[m][n];\n}\nint main() {\n    string text1 = \"ABCDGH\", text2 = \"AEDFHR\";\n    cout << longestCommonSubsequence(text1, text2); // Output: 3\n}\n```",
+    "link": "https://leetcode.com/problems/longest-common-subsequence/description/"
+  },
+  {
+    "id": "p90",
+    "title": "Binary Tree Level Order Traversal",
+    "description": "Perform level-order traversal of a binary tree.",
+    "topic": "Tree Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use a queue to process nodes level by level.\n\n```cpp\n#include <vector>\n#include <queue>\n#include <iostream>\nusing namespace std;\nstruct TreeNode {\n    int val;\n    TreeNode *left, *right;\n    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n};\nvector<vector<int>> levelOrder(TreeNode* root) {\n    vector<vector<int>> result;\n    if (!root) return result;\n    queue<TreeNode*> q;\n    q.push(root);\n    while (!q.empty()) {\n        int size = q.size();\n        vector<int> level;\n        for (int i = 0; i < size; i++) {\n            TreeNode* node = q.front(); q.pop();\n            level.push_back(node->val);\n            if (node->left) q.push(node->left);\n            if (node->right) q.push(node->right);\n        }\n        result.push_back(level);\n    }\n    return result;\n}\nint main() {\n    TreeNode* root = new TreeNode(3);\n    root->left = new TreeNode(9);\n    root->right = new TreeNode(20);\n    root->right->left = new TreeNode(15);\n    root->right->right = new TreeNode(7);\n    auto result = levelOrder(root);\n    for (auto& level : result) { for (int val : level) cout << val << \" \"; cout << endl; } // Output: 3 9 20 15 7\n}\n```",
+    "link": "https://leetcode.com/problems/binary-tree-level-order-traversal/description/"
+  },
+  {
+    "id": "p91",
+    "title": "Flood Fill",
+    "description": "Fill a region in an image with a new color starting from a given point.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Easy",
+    "solution": "Use DFS to flood fill connected regions.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid floodFillUtil(vector<vector<int>>& image, int sr, int sc, int newColor, int oldColor) {\n    if (sr < 0 || sr >= image.size() || sc < 0 || sc >= image[0].size() || image[sr][sc] != oldColor) return;\n    image[sr][sc] = newColor;\n    floodFillUtil(image, sr + 1, sc, newColor, oldColor);\n    floodFillUtil(image, sr - 1, sc, newColor, oldColor);\n    floodFillUtil(image, sr, sc + 1, newColor, oldColor);\n    floodFillUtil(image, sr, sc - 1, newColor, oldColor);\n}\nvector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {\n    if (image[sr][sc] != newColor) floodFillUtil(image, sr, sc, newColor, image[sr][sc]);\n    return image;\n}\nint main() {\n    vector<vector<int>> image = {{1,1,1}, {1,1,0}, {1,0,1}};\n    auto result = floodFill(image, 1, 1, 2);\n    for (auto& row : result) { for (int val : row) cout << val << \" \"; cout << endl; } // Output: 2 2 2 2 2 0 2 0 1\n}\n```",
+    "link": "https://leetcode.com/problems/flood-fill/description/"
+  },
+  {
+    "id": "p92",
+    "title": "Rotate Matrix",
+    "description": "Rotate a square matrix 90 degrees clockwise in place.",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "solution": "Transpose and reverse rows.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid rotate(vector<vector<int>>& matrix) {\n    int n = matrix.size();\n    // Transpose\n    for (int i = 0; i < n; i++) {\n        for (int j = i; j < n; j++) {\n            swap(matrix[i][j], matrix[j][i]);\n        }\n    }\n    // Reverse rows\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n / 2; j++) {\n            swap(matrix[i][j], matrix[i][n - 1 - j]);\n        }\n    }\n}\nint main() {\n    vector<vector<int>> matrix = {{1,2,3}, {4,5,6}, {7,8,9}};\n    rotate(matrix);\n    for (auto& row : matrix) { for (int val : row) cout << val << \" \"; cout << endl; } // Output: 7 4 1 8 5 2 9 6 3\n}\n```",
+    "link": "https://leetcode.com/problems/rotate-image/description/"
+  },
+  {
+    "id": "p93",
+    "title": "Word Break",
+    "description": "Determine if a string can be segmented into words from a dictionary.",
+    "topic": "Dynamic Programming",
+    "difficulty": "Medium",
+    "solution": "Use DP to check valid word breaks.\n\n```cpp\n#include <string>\n#include <vector>\n#include <unordered_set>\n#include <iostream>\nusing namespace std;\nbool wordBreak(string s, vector<string>& wordDict) {\n    unordered_set<string> wordSet(wordDict.begin(), wordDict.end());\n    vector<bool> dp(s.size() + 1, false);\n    dp[0] = true;\n    for (int i = 1; i <= s.size(); i++) {\n        for (int j = 0; j < i; j++) {\n            if (dp[j] && wordSet.count(s.substr(j, i - j))) {\n                dp[i] = true;\n                break;\n            }\n        }\n    }\n    return dp[s.size()];\n}\nint main() {\n    string s = \"leetcode\";\n    vector<string> wordDict = {\"leet\", \"code\"};\n    cout << wordBreak(s, wordDict); // Output: 1\n}\n```",
+    "link": "https://leetcode.com/problems/word-break/description/"
+  },
+  {
+    "id": "p94",
+    "title": "Kth Smallest Element in BST",
+    "description": "Find the kth smallest element in a binary search tree.",
+    "topic": "Tree Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use inorder traversal with a counter.\n\n```cpp\n#include <iostream>\nusing namespace std;\nstruct TreeNode {\n    int val;\n    TreeNode *left, *right;\n    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n};\nint kthSmallest(TreeNode* root, int& k) {\n    if (!root) return -1;\n    int left = kthSmallest(root->left, k);\n    if (left != -1) return left;\n    if (--k == 0) return root->val;\n    return kthSmallest(root->right, k);\n}\nint main() {\n    TreeNode* root = new TreeNode(3);\n    root->left = new TreeNode(1);\n    root->right = new TreeNode(4);\n    root->left->right = new TreeNode(2);\n    int k = 1;\n    cout << kthSmallest(root, k); // Output: 1\n}\n```",
+    "link": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/"
+  },
+  {
+    "id": "p95",
+    "title": "Clone Graph",
+    "description": "Clone an undirected graph with adjacency lists.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use DFS with a hash map to track cloned nodes.\n\n```cpp\n#include <vector>\n#include <unordered_map>\n#include <iostream>\nusing namespace std;\nstruct Node {\n    int val;\n    vector<Node*> neighbors;\n    Node(int x) : val(x) {}\n};\nNode* cloneGraph(Node* node) {\n    if (!node) return nullptr;\n    unordered_map<Node*, Node*> clones;\n    function<Node*(Node*)> dfs = [&](Node* node) -> Node* {\n        if (clones.count(node)) return clones[node];\n        Node* clone = new Node(node->val);\n        clones[node] = clone;\n        for (Node* neighbor : node->neighbors) {\n            clone->neighbors.push_back(dfs(neighbor));\n        }\n        return clone;\n    };\n    return dfs(node);\n}\nint main() {\n    Node* node1 = new Node(1);\n    Node* node2 = new Node(2);\n    node1->neighbors.push_back(node2);\n    node2->neighbors.push_back(node1);\n    Node* clone = cloneGraph(node1);\n    cout << clone->val << \" \" << clone->neighbors[0]->val; // Output: 1 2\n}\n```",
+    "link": "https://leetcode.com/problems/clone-graph/description/"
+  },
+  {
+    "id": "p96",
+    "title": "Number of Islands",
+    "description": "Count the number of islands in a 2D grid where '1' represents land.",
+    "topic": "Graph Algorithms",
+    "difficulty": "Medium",
+    "solution": "Use DFS to mark and count islands.\n\n```cpp\n#include <vector>\n#include <iostream>\nusing namespace std;\nvoid dfs(vector<vector<char>>& grid, int i, int j) {\n    if (i < 0 || i >= grid.size() || j < 0 || j >= grid[0].size() || grid[i][j] != '1') return;\n    grid[i][j] = '0';\n    dfs(grid, i + 1, j); dfs(grid, i - 1, j);\n    dfs(grid, i, j + 1); dfs(grid, i, j - 1);\n}\nint numIslands(vector<vector<char>>& grid) {\n    int count = 0;\n    for (int i = 0; i < grid.size(); i++) {\n        for (int j = 0; j < grid[0].size(); j++) {\n            if (grid[i][j] == '1') {\n                dfs(grid, i, j);\n                count++;\n            }\n        }\n    }\n    return count;\n}\nint main() {\n    vector<vector<char>> grid = {{'1','1','0'}, {'1','1','0'}, {'0','0','1'}};\n    cout << numIslands(grid); // Output: 2\n}\n```",
+    "link": "https://leetcode.com/problems/number-of-islands/description/"
+  },
+  {
+    "id": "p97",
+    "title": "LRU Cache",
+    "description": "Implement an LRU (Least Recently Used) Cache.",
+    "topic": "Data Structures",
+    "difficulty": "Medium",
+    "solution": "Use a doubly linked list and hash map.\n\n```cpp\n#include <unordered_map>\n#include <iostream>\nusing namespace std;\nstruct Node {\n    int key, val;\n    Node* prev, *next;\n    Node(int k, int v) : key(k), val(v), prev(nullptr), next(nullptr) {}\n};\nclass LRUCache {\nprivate:\n    int capacity;\n    unordered_map<int, Node*> cache;\n    Node* head, *tail;\n    void moveToFront(Node* node) {\n        if (node == head) return;\n        if (node == tail) tail = node->prev;\n        node->prev->next = node->next;\n        if (node->next) node->next->prev = node->prev;\n        node->next = head;\n        node->prev = nullptr;\n        head->prev = node;\n        head = node;\n    }\npublic:\n    LRUCache(int c) : capacity(c) {\n        head = tail = nullptr;\n    }\n    int get(int key) {\n        if (!cache.count(key)) return -1;\n        Node* node = cache[key];\n        moveToFront(node);\n        return node->val;\n    }\n    void put(int key, int value) {\n        if (cache.count(key)) {\n            cache[key]->val = value;\n            moveToFront(cache[key]);\n            return;\n        }\n        Node* node = new Node(key, value);\n        if (!head) head = tail = node;\n        else {\n            node->next = head;\n            head->prev = node;\n            head = node;\n        }\n        cache[key] = node;\n        if (cache.size() > capacity) {\n            cache.erase(tail->key);\n            Node* temp = tail;\n            tail = tail->prev;\n            if (tail) tail->next = nullptr;\n            delete temp;\n        }\n    }\n};\nint main() {\n    LRUCache cache(2);\n    cache.put(1, 1);\n    cache.put(2, 2);\n    cout << cache.get(1) << \" \"; // Output: 1\n    cache.put(3, 3);\n    cout << cache.get(2) << \" \"; // Output: -1\n}\n```",
+    "link": "https://leetcode.com/problems/lru-cache/description/"
+  },
+  {
+    "id": "p98",
+    "title": "Valid Sudoku",
+    "description": "Check if a 9x9 Sudoku board is valid.",
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "solution": "Use sets to check rows, columns, and 3x3 boxes.\n\n```cpp\n#include <vector>\n#include <unordered_set>\n#include <iostream>\nusing namespace std;\nbool isValidSudoku(vector<vector<char>>& board) {\n    for (int i = 0; i < 9; i++) {\n        unordered_set<char> row, col;\n        for (int j = 0; j < 9; j++) {\n            if (board[i][j] != '.' && !row.insert(board[i][j]).second) return false;\n            if (board[j][i] != '.' && !col.insert(board[j][i]).second) return false;\n        }\n    }\n    for (int i = 0; i < 9; i += 3) {\n        for (int j = 0; j < 9; j += 3) {\n            unordered_set<char> box;\n            for (int r = 0; r < 3; r++) {\n                for (int c = 0; c < 3; c++) {\n                    if (board[i + r][j + c] != '.' && !box.insert(board[i + r][j + c]).second) return false;\n                }\n            }\n        }\n    }\n    return true;\n}\nint main() {\n    vector<vector<char>> board = {{'5','3','.','.','7','.','.','.','.'}, {'6','.','.','1','9','5','.','.','.'}, {'.','9','8','.','.','.','.','6','.'}, {'8','.','.','.','6','.','.','.','3'}, {'4','.','.','8','.','3','.','.','1'}, {'7','.','.','.','2','.','.','.','6'}, {'.','6','.','.','.','.','2','8','.'}, {'.','.','.','4','1','9','.','.','5'}, {'.','.','.','.','8','.','.','7','9'}};\n    cout << isValidSudoku(board); // Output: 1\n}\n```",
+    "link": "https://leetcode.com/problems/valid-sudoku/description/"
+  },
+  {
+    "id": "p99",
+    "title": "Binary Tree Maximum Path Sum",
+    "description": "Find the maximum path sum in a binary tree.",
+    "topic": "Tree Algorithms",
+    "difficulty": "Hard",
+    "solution": "Use DFS to compute maximum path sums.\n\n```cpp\n#include <iostream>\nusing namespace std;\nstruct TreeNode {\n    int val;\n    TreeNode *left, *right;\n    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}\n};\nint maxPathSum(TreeNode* root, int& maxSum) {\n    if (!root) return 0;\n    int left = max(0, maxPathSum(root->left, maxSum));\n    int right = max(0, maxPathSum(root->right, maxSum));\n    maxSum = max(maxSum, left + right + root->val);\n    return max(left, right) + root->val;\n}\nint maxPathSum(TreeNode* root) {\n    int maxSum = INT_MIN;\n    maxPathSum(root, maxSum);\n    return maxSum;\n}\nint main() {\n    TreeNode* root = new TreeNode(-10);\n    root->left = new TreeNode(9);\n    root->right = new TreeNode(20);\n    root->right->left = new TreeNode(15);\n    root->right->right = new TreeNode(7);\n    cout << maxPathSum(root); // Output: 42\n}\n```",
+    "link": "https://leetcode.com/problems/binary-tree-maximum-path-sum/description/"
+  },
+  {
+    "id": "p100",
+    "title": "Trie Implementation",
+    "description": "Implement a Trie (Prefix Tree) with insert, search, and startsWith operations.",
+    "topic": "Data Structures",
+    "difficulty": "Medium",
+    "solution": "Use a node structure with character arrays.\n\n```cpp\n#include <string>\n#include <iostream>\nusing namespace std;\nstruct TrieNode {\n    TrieNode* children[26];\n    bool isEnd;\n    TrieNode() : isEnd(false) { for (int i = 0; i < 26; i++) children[i] = nullptr; }\n};\nclass Trie {\nprivate:\n    TrieNode* root;\npublic:\n    Trie() { root = new TrieNode(); }\n    void insert(string word) {\n        TrieNode* node = root;\n        for (char c : word) {\n            int idx = c - 'a';\n            if (!node->children[idx]) node->children[idx] = new TrieNode();\n            node = node->children[idx];\n        }\n        node->isEnd = true;\n    }\n    bool search(string word) {\n        TrieNode* node = root;\n        for (char c : word) {\n            int idx = c - 'a';\n            if (!node->children[idx]) return false;\n            node = node->children[idx];\n        }\n        return node->isEnd;\n    }\n    bool startsWith(string prefix) {\n        TrieNode* node = root;\n        for (char c : prefix) {\n            int idx = c - 'a';\n            if (!node->children[idx]) return false;\n            node = node->children[idx];\n        }\n        return true;\n    }\n};\nint main() {\n    Trie trie;\n    trie.insert(\"apple\");\n    cout << trie.search(\"apple\") << \" \"; // Output: 1\n    cout << trie.search(\"app\") << \" \";   // Output: 0\n    cout << trie.startsWith(\"app\") << \" \"; // Output: 1\n}\n```",
+    "link": "https://www.geeksforgeeks.org/trie-insert-and-search/"
+  }
+]

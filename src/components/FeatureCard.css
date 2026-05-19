@@ -1,0 +1,212 @@
+/* FeatureCard.css */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Raleway:wght@800;900&display=swap");
+
+:root[data-theme="dark"] {
+  --bg: linear-gradient(135deg, #1e1b4b, #2e2a7b);
+  --text: #f3f4f6;
+  --gradient: linear-gradient(135deg, #7c3aed, #d946ef, #06b6d4, #a78bfa);
+  --gradient-hover: linear-gradient(135deg, #a78bfa, #06b6d4, #d946ef, #7c3aed);
+  --gradient-text: linear-gradient(135deg, #a5b4fc, #ec4899);
+  --glass-bg: rgba(30, 30, 50, 0.45);
+  --glass-blur: blur(20px);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --accent-purple: #7c3aed;
+  --accent-magenta: #ec4899;
+  --accent-cyan: #06b6d4;
+  --accent-violet: #a78bfa;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  --shadow-hover: 0 12px 48px rgba(124, 58, 237, 0.6);
+  --inner-glow: inset 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+:root[data-theme="light"] {
+  --bg: linear-gradient(135deg, #f8fafc, #e2e8f0);
+  --text: #1e293b;
+  --gradient: linear-gradient(135deg, #ff6b6b, #c084fc, #84cc16, #facc15);
+  --gradient-hover: linear-gradient(135deg, #facc15, #84cc16, #c084fc, #ff6b6b);
+  --gradient-text: linear-gradient(135deg, #38bdf8, #f87171);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-blur: blur(20px);
+  --glass-border: rgba(0, 0, 0, 0.15);
+  --accent-purple: #c084fc;
+  --accent-magenta: #ff6b6b;
+  --accent-cyan: #84cc16;
+  --accent-violet: #facc15;
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  --shadow-hover: 0 12px 48px rgba(192, 132, 252, 0.5);
+  --inner-glow: inset 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Feature Card */
+.fc-feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 320px;
+  min-height: 380px;
+  padding: 2rem 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 2px solid var(--glass-border);
+  border-radius: 32px;
+  text-decoration: none;
+  color: var(--text);
+  box-shadow: var(--shadow), var(--inner-glow);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.fc-feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient-hover);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+
+.fc-feature-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, var(--accent-cyan) 10%, transparent 70%);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: -1;
+}
+
+.fc-feature-card:hover::before {
+  opacity: 0.35;
+}
+
+.fc-feature-card:hover::after {
+  opacity: 0.25;
+  transform: translate(-50%, -50%) scale(1.8);
+}
+
+.fc-feature-card:hover {
+  transform: translateY(-12px);
+  box-shadow: var(--shadow-hover), var(--inner-glow);
+  border: 2px solid transparent;
+  border-image: var(--gradient-hover) 1;
+}
+
+.fc-feature-card:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--accent-violet);
+}
+
+.fc-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 1.8rem;
+  background: radial-gradient(circle, var(--accent-cyan) 20%, transparent 70%);
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+}
+
+.fc-icon {
+  width: 52px;
+  height: 52px;
+  color: var(--accent-cyan);
+  transition: color 0.4s ease, transform 0.4s ease;
+}
+
+.fc-feature-card:hover .fc-icon {
+  color: var(--accent-magenta);
+  transform: rotate(8deg);
+}
+
+.fc-card-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+  color: var(--text);
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  letter-spacing: 0.03em;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.fc-feature-card:hover .fc-card-title {
+  opacity: 0.85;
+  transform: translateY(-4px);
+}
+
+.fc-card-description {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--text);
+  opacity: 0.9;
+  text-align: center;
+  line-height: 1.6;
+  margin: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  flex-grow: 1;
+}
+
+.fc-feature-card:hover .fc-card-description {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+/* Responsive Design */
+@media (min-width: 1024px) and (max-width: 1280px) {
+  .fc-feature-card {
+    max-width: 300px;
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  .fc-feature-card {
+    max-width: 340px;
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .fc-feature-card {
+    max-width: 300px;
+    min-height: 340px;
+    padding: 1.5rem;
+  }
+
+  .fc-icon-wrapper {
+    width: 64px;
+    height: 64px;
+  }
+
+  .fc-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .fc-card-title {
+    font-size: 1.8rem;
+  }
+
+  .fc-card-description {
+    font-size: 1rem;
+  }
+}

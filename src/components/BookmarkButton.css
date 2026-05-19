@@ -1,0 +1,28 @@
+.bookmark-button {
+  background: linear-gradient(145deg, #f0f0f0, #dcdcdc);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 2px 2px 6px #bdbdbd, -2px -2px 6px #ffffff;
+  cursor: pointer;
+  padding: 10px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bookmark-button:hover {
+  box-shadow: inset 2px 2px 4px #c5c5c5, inset -2px -2px 4px #ffffff;
+  transform: scale(1.04);
+}
+
+.bookmark-icon {
+  width: 24px;
+  height: 24px;
+  fill: #777; /* Softer default */
+  transition: fill 0.3s ease;
+}
+
+.bookmark-button.bookmarked .bookmark-icon {
+  fill: #ffc107; /* Warm gold tone */
+}

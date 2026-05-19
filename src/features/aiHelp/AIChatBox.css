@@ -1,0 +1,368 @@
+/* Theme Variables (Inherited from AIHelpPage.css) */
+.ai-chat-container {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  animation: fadeIn 1.2s ease forwards;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.chat-history {
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background: var(--glass-bg);
+  border-radius: 15px;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--inner-glow);
+  scroll-behavior: smooth; /* Added for smooth scrolling */
+}
+
+/* Rest of the CSS remains unchanged from previous response */
+.ai-chat-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.chat-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.clear-button {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.clear-button:hover {
+  background: var(--gradient-hover);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+.clear-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  position: relative;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.user-bubble {
+  background: var(--gradient);
+  color: #fff;
+  margin-left: auto;
+  border-bottom-right-radius: 2px;
+  box-shadow: var(--shadow);
+}
+
+.ai-bubble {
+  background: var(--code-bg);
+  color: var(--text);
+  margin-right: auto;
+  border-bottom-left-radius: 2px;
+  box-shadow: var(--shadow);
+}
+
+.ai-bubble p {
+  margin: 0.5rem 0;
+}
+
+.ai-bubble :where(code, pre) {
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--code-string);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.ai-bubble pre {
+  padding: 1.2rem;
+  margin: 0.8rem 0;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.ai-bubble code.block-code {
+  display: block;
+  white-space: pre-wrap;
+}
+
+.ai-bubble code.inline-code {
+  padding: 0.2rem 0.4rem;
+}
+
+.error-bubble {
+  background: rgba(255, 75, 75, 0.3);
+  color: #ff4b4b;
+  border: 1px solid #ff4b4b;
+}
+
+.retry-button {
+  background: var(--accent-magenta);
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.retry-button:hover {
+  background: var(--accent-purple);
+  transform: translateY(-2px);
+}
+
+.retry-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.textarea-wrapper {
+  display: flex;
+  align-items: flex-end;
+  background: var(--glass-bg);
+  border: 2px solid var(--glass-border);
+  border-radius: 15px;
+  padding: 0.8rem;
+  position: relative;
+}
+
+.ai-textarea {
+  flex: 1;
+  min-height: 60px;
+  max-height: 250px;
+  resize: none;
+  border: none;
+  background: transparent;
+  padding: 0.8rem;
+  color: var(--text);
+  font-size: 1.2rem;
+  font-family: "Poppins", sans-serif;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.ai-textarea:focus {
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.3);
+}
+
+.ai-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.inline-button {
+  background: var(--gradient);
+  border: none;
+  padding: 0.6rem;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0.8rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.inline-button:hover {
+  background: var(--gradient-hover);
+  transform: scale(1.1);
+}
+
+.inline-button:active {
+  transform: scale(0.95);
+}
+
+.inline-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.action-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #fff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.char-counter {
+  position: absolute;
+  bottom: 12px;
+  right: 60px;
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.6;
+}
+
+.skeleton-bubble {
+  height: 80px;
+  width: 60%;
+  margin-right: auto;
+  background: var(--skeleton-bg);
+  border-radius: 12px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ai-chat-container {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+
+  .ai-chat-title {
+    font-size: 1.8rem;
+  }
+
+  .chat-history {
+    max-height: 400px;
+  }
+
+  .ai-textarea {
+    font-size: 1.1rem;
+    padding: 0.8rem;
+    min-height: 50px;
+  }
+
+  .inline-button {
+    width: 38px;
+    height: 38px;
+  }
+
+  .action-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+  }
+
+  .char-counter {
+    font-size: 0.85rem;
+  }
+
+  .skeleton-bubble {
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ai-chat-container {
+    padding: 1rem;
+  }
+
+  .ai-chat-title {
+    font-size: 1.6rem;
+  }
+
+  .ai-textarea {
+    font-size: 1rem;
+    padding: 0.6rem;
+    min-height: 45px;
+  }
+
+  .inline-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .action-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .spinner {
+    width: 18px;
+    height: 18px;
+  }
+
+  .char-counter {
+    font-size: 0.8rem;
+  }
+
+  .skeleton-bubble {
+    height: 60px;
+  }
+}
