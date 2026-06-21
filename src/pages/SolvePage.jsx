@@ -75,7 +75,7 @@ const SolvePage = () => {
     setAiFeedback("");
     setShowFeedbackModal(true);
     try {
-      const res = await fetch("http://localhost:3001/api/interview/analyze-code", {
+      const res = await fetch("/api/interview/analyze-code", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

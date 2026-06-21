@@ -38,7 +38,7 @@ export const useProgress = () => {
     }
     try {
       setIsLoading(true);
-      const res = await fetch("http://localhost:3001/api/progress", {
+      const res = await fetch("/api/progress", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -101,7 +101,7 @@ export const useProgress = () => {
     const problemIdStr = String(id);
     if (isAuthenticated && token) {
       try {
-        const res = await fetch("http://localhost:3001/api/progress/toggle-complete", {
+        const res = await fetch("/api/progress/toggle-complete", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -130,7 +130,7 @@ export const useProgress = () => {
     const problemIdStr = String(problemId);
     if (isAuthenticated && token) {
       try {
-        const res = await fetch("http://localhost:3001/api/progress/save-solution", {
+        const res = await fetch("/api/progress/save-solution", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -1,0 +1,24 @@
+services:
+  db:
+    image: mongo:6
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  app:
+    build: .
+    image: ${DOCKERHUB_USERNAME:-jeevanms003}/lockedin:latest
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - MONGODB_URI=mongodb://db:27017/lockedin
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - JWT_SECRET=${JWT_SECRET:-your-secure-jwt-secret}
+    depends_on:
+      - db
+
+volumes:
+  mongo_data:

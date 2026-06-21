@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_URL = "http://localhost:3001/api/auth";
+  const API_URL = "/api/auth";
 
   const fetchProfile = useCallback(async (jwtToken) => {
     try {

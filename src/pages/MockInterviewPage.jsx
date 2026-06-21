@@ -74,7 +74,7 @@ const MockInterviewPage = () => {
     setEvaluationReport(null);
 
     try {
-      const res = await fetch("http://localhost:3001/api/interview/chat", {
+      const res = await fetch("/api/interview/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -118,7 +118,7 @@ const MockInterviewPage = () => {
     setIsAIResponding(true);
 
     try {
-      const res = await fetch("http://localhost:3001/api/interview/chat", {
+      const res = await fetch("/api/interview/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -159,7 +159,7 @@ const MockInterviewPage = () => {
   const handleEvaluate = async () => {
     setIsEvaluating(true);
     try {
-      const res = await fetch("http://localhost:3001/api/interview/evaluate", {
+      const res = await fetch("/api/interview/evaluate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

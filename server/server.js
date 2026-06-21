@@ -6,6 +6,8 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const progressRoutes = require("./routes/progress");
 const interviewRoutes = require("./routes/interview");
+const geminiRoutes = require("./routes/gemini");
+const path = require("path");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -25,6 +27,7 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/progress", progressRoutes);
 app.use("/api/interview", interviewRoutes);
+app.use("/api/gemini", geminiRoutes);
 
 // Health Check Endpoint
 app.get("/health", (req, res) => {
@@ -33,6 +36,14 @@ app.get("/health", (req, res) => {
     database: mongoose.connection.readyState === 1 ? "connected" : "disconnected",
     time: new Date(),
   });
+});
+
+// Serve static files from the React frontend build
+app.use(express.static(path.join(__dirname, "../dist")));
+
+// Fallback to index.html for React SPA router
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
 // Start the Server

@@ -46,7 +46,7 @@ const AIChatBox = ({ initialQuery = "" }) => {
     setUserMessageSent(true); // Mark user message sent
 
     try {
-      const result = await fetch("http://localhost:3001/api/gemini", {
+      const result = await fetch("/api/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
